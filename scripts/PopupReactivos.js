@@ -46,7 +46,7 @@
     }
 
     saveReactivosWS(item, callback) {
-        
+
         // int id, int id_instrumento, int id_modulo,string dataJson, int estado, int
         // orden, int tipopregunta ,string estilo, string nota
         var params = `{id:${item.id},id_instrumento:${item.id_instrumento}, id_modulo:${item.id_modulo},dataJson:'${item.dataJson}', estado:${item.estado}, orden:${item.orden}, tipopregunta:${item.tipopregunta}, estilo:"${item.estilo}", nota:"${item.nota}"}`;
@@ -66,15 +66,14 @@
         e.preventDefault();
 
         if (a == 1) {
-            debugger;
 
-            var obj =this.state.reactivo.preguntaJson
+            var obj = this.state.reactivo.preguntaJson
             var data = JSON.stringify(obj)
             var item = {}
             item.id = -1;
             item.id_instrumento = parseInt(this.state.father.id_instrumento);
             item.id_modulo = parseInt(this.state.father.id);
-            item.dataJson =data  //;
+            item.dataJson = data //;
             item.tipopregunta = this.state.reactivo.tipopregunta;
             item.estilo = "l";
             item.nota = this.state.reactivo.nota;
@@ -82,17 +81,18 @@
             item.orden = 0;
             this.saveReactivosWS(item, function (resp) {
                 //actualizar lista preguntas
-             
-                if(resp.d==200){
-                    this._getReactivosWS(this.state.father.id, function (data) {
-                    var listaReactivos = data.d[0].reactivos
-                    if(listaReactivos!=""){
-                      
-                        var cartList = JSON.parse(listaReactivos);
-                        this.setState({listaReactivos_preguntasJson:cartList})
-                    }
-                    
-                }.bind(this))
+
+                if (resp.d == 200) {
+                    this
+                        ._getReactivosWS(this.state.father.id, function (data) {
+                            var listaReactivos = data.d[0].reactivos
+                            if (listaReactivos != "") {
+
+                                var cartList = JSON.parse(listaReactivos);
+                                this.setState({listaReactivos_preguntasJson: cartList})
+                            }
+
+                        }.bind(this))
                 }
             }.bind(this))
 
@@ -122,41 +122,70 @@
             this
                 ._getReactivosWS(nextProps.father.id, function (data) {
                     var listaReactivos = data.d[0].reactivos
-                    if(listaReactivos!=""){
-                      
+                    if (listaReactivos != "") {
+
                         var cartList = JSON.parse(listaReactivos);
-                        this.setState({listaReactivos_preguntasJson:cartList})
+                        this.setState({listaReactivos_preguntasJson: cartList})
                     }
-                    
+
                 }.bind(this))
         }
 
     }
     handleReactivo(e) {
-        
+
         this.setState({reactivo: e})
         //actualizar
 
     }
-    handleReactivosPanel(listaToRemove){
-       
-        for (var key in listaToRemove) {
-            
-               this.deleteReactivo(listaToRemove[key],function(data){
-                   debugger;
+    reloadList() {
+        debugger;
+        this._getReactivosWS(this.state.father.id, function (data) {
+            var listaReactivos = data.d[0].reactivos
+            if (listaReactivos != "") {
+                var cartList = JSON.parse(listaReactivos);
+                this.setState({listaReactivos_preguntasJson: cartList})
+            }
+
+        }.bind(this))
+
+    }
+
+    handleReactivosPanel(listaToRemove) {
+
+        // let miPrimeraPromise = new Promise((resolve, reject) => {
+  
+        // setTimeout(function(){
+        //     resolve("¡Éxito!"); 
+        // }, 250);
+        // });
+
+        // miPrimeraPromise.then((successMessage) => {
+
+        // alert("Asi se hace una promesa"+successMessage)
+        // });
+
+
+
+
+
+
+        var callbackDeleteReloadList = function (lista, callback) {
+            for (var key in listaToRemove) {
+                debugger
+
+                this.deleteReactivo(listaToRemove[key], function (data) {
+
+
                 }.bind(this));
-        }
-      this._getReactivosWS(this.state.father.id, function (data) {
-                    var listaReactivos = data.d[0].reactivos
-                    if(listaReactivos!=""){
-                      
-                        var cartList = JSON.parse(listaReactivos);
-                        this.setState({listaReactivos_preguntasJson:cartList})
-                    }
-                    
-                }.bind(this))
-       
-       
+            }
+              setTimeout(function(){
+           callback()
+        }, 500);
+            
+        }.bind(this)
+
+        callbackDeleteReloadList(listaToRemove, this.reloadList.bind(this))
 
     }
     render() {
@@ -182,15 +211,18 @@
                         <div className="row">
                             <div className="col-md-4 pregunta-div">
                                 <Preguntas
-                                    prefijoPregunta={this.state.father.prefijo+"."+(this.state.listaReactivos_preguntasJson.length+1)}
+                                    prefijoPregunta={this.state.father.prefijo + "." + (this.state.listaReactivos_preguntasJson.length + 1)}
                                     onChange={this
                                     .handleReactivo
                                     .bind(this)}/>
                             </div>
                             <div className="col-md-8">
-                                <PanelPreguntas onChange={this
+                                <PanelPreguntas
+                                    onChange={this
                                     .handleReactivosPanel
-                                    .bind(this)} father={this.state.father} listaReactivosJson={this.state.listaReactivos_preguntasJson}/>
+                                    .bind(this)}
+                                    father={this.state.father}
+                                    listaReactivosJson={this.state.listaReactivos_preguntasJson}/>
                             </div>
                         </div>
 

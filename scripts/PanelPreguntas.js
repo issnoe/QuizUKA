@@ -2,110 +2,138 @@
     constructor(props) {
         super(props);
         this.state = {}
-        this.state.checkedAll= false;
-        this.state.listaIdBorrados=[];
+        this.state.checkedAll = false;
+        this.state.listaIdBorrados = [];
+        this.state.spinerLoad = true;
 
     }
-    deleteSelected(e){
+    componentWillReceiveProps(nextProps) {
+        var lista = nextProps.listaReactivosJson
+        if (lista.length > 0) {
+            this.setState({statelistaReactivos:nextProps.listaReactivosJson,spinerLoad:false,listaIdBorrados:[] })
+        }
+    }
+    deleteSelected(e) {
+        this.setState({spinerLoad: true})
         e.preventDefault();
-        this.props.onChange(this.state.listaIdBorrados)
+        this
+            .props
+            .onChange(this.state.listaIdBorrados)
 
     }
-    handleDelete(e){
-       
-        debugger
+    componentWillUnmount() {
+        this.setState({spinerLoad:false,listaIdBorrados:[] })
+    }
+    handleDelete(e) {
+
         var valor = e.target.value
         try {
-              if(valor=="on"){
-             var id = parseInt(e.target.name);
-             var lista = this.state.listaIdBorrados;
-             lista.push(id);
-             this.setState({listaIdBorrados:lista})
-        }
-        else if(valor=="off"){
-             var id = parseInt( e.target.name);
-             var lista = this.state.listaIdBorrados;
-             var index = lista.indexOf(id);
-             if (index > -1) {
-                lista.splice(index, 1);
-                 this.setState({listaIdBorrados:lista})
+            if (valor == "on") {
+                var id = parseInt(e.target.name);
+                var lista = this.state.listaIdBorrados;
+                lista.push(id);
+                this.setState({listaIdBorrados: lista})
+            } else if (valor == "off") {
+                var id = parseInt(e.target.name);
+                var lista = this.state.listaIdBorrados;
+                var index = lista.indexOf(id);
+                if (index > -1) {
+                    lista.splice(index, 1);
+                    this.setState({listaIdBorrados: lista})
+                }
             }
-        }
-        } catch (error) {
-            
-        }
-      
+        } catch (error) {}
+
     }
-    // handleAllCheckes(e){
-    //     debugger
-    //     this.setState({checkedAll:true});
-
-    // }
+    // handleAllCheckes(e){     debugger     this.setState({checkedAll:true}); }
     renderReactivos() {
-        var lista = this.props.listaReactivosJson;
-       
-        if(this.state.checkedAll){
-             var listaRender = []
-            debugger
-            for (var key in lista) {
-           
-            var preguntaJson = lista[key].dataJson;
+        if (this.state.statelistaReactivos && this.state.statelistaReactivos.length > 0 && this.state.spinerLoad == false) {
+            var lista = this.state.statelistaReactivos
+            if (this.state.checkedAll) {
+                var listaRender = []
 
-            if (preguntaJson != "") {
-               
-                try {
-                 
-                    var castJsonPregunta = JSON.parse(preguntaJson);
+                for (var key in lista) {
 
-                    var pregunta = (
-                        <div className="reg-preg" key={lista[key].id }>
-                          
-                            <input type="checkbox" name={lista[key].id} defaultChecked={true} onChange={this.handleDelete.bind(this)} className="check-preg"/>
-                            <strong>{this.props.father.prefijo +"."+ (parseInt(key) +1) +"  " }</strong>
-                            {castJsonPregunta[0].question}<br/>
-                              <small >{lista[key].nota}</small>
+                    var preguntaJson = lista[key].dataJson;
 
-                        </div>
-                    )
-                    listaRender.push(pregunta);
-                } catch (ex) {}
+                    if (preguntaJson != "") {
+
+                        try {
+
+                            var castJsonPregunta = JSON.parse(preguntaJson);
+
+                            var pregunta = (
+                                <div className="reg-preg" key={lista[key].id}>
+
+                                    <input
+                                        type="checkbox"
+                                        name={lista[key].id}
+                                        defaultChecked={true}
+                                        onChange={this
+                                        .handleDelete
+                                        .bind(this)}
+                                        className="check-preg"/>
+                                    <strong>{this.props.father.prefijo + "." + (parseInt(key) + 1) + "  "}</strong>
+                                    {castJsonPregunta[0].question}<br/>
+                                    <small >{lista[key].nota}</small>
+
+                                </div>
+                            )
+                            listaRender.push(pregunta);
+                        } catch (ex) {}
+
+                    }
+
+                }
+                // if (this.state.spinerLoad == true) {     return (
+                //
+                //     ) }
+                if (listaRender.length == 0) {}
+
+                //return listaRender;
+            } else {
+                var listaRender = []
+                for (var key in lista) {
+
+                    var preguntaJson = lista[key].dataJson;
+
+                    if (preguntaJson != "") {
+
+                        try {
+
+                            var castJsonPregunta = JSON.parse(preguntaJson);
+
+                            var pregunta = (
+                                <div className="reg-preg" key={lista[key].id}>
+
+                                    <input
+                                        type="checkbox"
+                                        name={lista[key].id}
+                                        defaultChecked={false}
+                                        onChange={this
+                                        .handleDelete
+                                        .bind(this)}
+                                        className="check-preg"/>
+                                    <strong>{this.props.father.prefijo + "." + (parseInt(key) + 1) + "  "}</strong>
+                                    {castJsonPregunta[0].question}<br/>
+                                    <small >{lista[key].nota}</small>
+
+                                </div>
+                            )
+                            listaRender.push(pregunta);
+                        } catch (ex) {}
+
+                    }
+
+                }
+                return listaRender;
 
             }
-
         }
-        return listaRender;
-    }else{
-         var listaRender = []
-             for (var key in lista) {
-           
-            var preguntaJson = lista[key].dataJson;
+        return (
+            <div className="spinner"></div>
+        )
 
-            if (preguntaJson != "") {
-               
-                try {
-                 
-                    var castJsonPregunta = JSON.parse(preguntaJson);
-
-                    var pregunta = (
-                        <div className="reg-preg" key={lista[key].id }>
-                          
-                            <input type="checkbox" name={lista[key].id} defaultChecked={false} onChange={this.handleDelete.bind(this)} className="check-preg"/>
-                            <strong>{this.props.father.prefijo +"."+ (parseInt(key) +1) +"  " }</strong>
-                            {castJsonPregunta[0].question}<br/>
-                              <small >{lista[key].nota}</small>
-
-                        </div>
-                    )
-                    listaRender.push(pregunta);
-                } catch (ex) {}
-
-            }
-
-        }
-        return listaRender;
-
-        }
-       
     }
     render() {
         return (
@@ -115,7 +143,10 @@
                         <input type="checkbox" onChange={this.handleAllCheckes.bind(this)} className="check-preg"/>Seleccionar todas
                     </div>*/}
                     <div className="col-md-12 text-right">
-                        <a onClick={this.deleteSelected.bind(this)}><img src="../../../images/erase-gray.svg" height="18"/>
+                        <a
+                            onClick={this
+                            .deleteSelected
+                            .bind(this)}><img src="../../../images/erase-gray.svg" height="18"/>
                             Eliminar preguntas seleccionadas</a>
                     </div>
                 </div>
@@ -128,12 +159,9 @@
     }
 
     // <div className="row resp-reg">                         <div
-    // className="col-md-4 text-center">
-    // <strong>a)</strong>                             Respuesta 1</div>
-    //             <div className="col-md-4 text-center">
-    //  <strong>a)</strong>                             Respuesta 1</div>
-    //              <div className="col-md-4 text-center">
-    //   <strong>a)</strong>                             Respuesta 1</div>
-    //           </div>
+    // className="col-md-4 text-center"> <strong>a)</strong>     Respuesta 1</div>
+    //         <div className="col-md-4 text-center"> <strong>a)</strong>
+    //         Respuesta 1</div>  <div className="col-md-4 text-center">
+    // <strong>a)</strong>             Respuesta 1</div>           </div>
 
 }

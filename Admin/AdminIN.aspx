@@ -39,9 +39,7 @@
         </div> 
 	</div>
     <div id="reactIntrumentsApp" ></div>
-    <div id="panel" >
-        Panel preguntas
-    </div>
+  
     
     <footer>
     	&nbsp;
@@ -58,6 +56,7 @@
     <link rel="stylesheet" type="text/css" href="../../../css/icons.css"/>
     <link rel="stylesheet" type="text/css" href="../../../css/flexslider.css"/>
      <link rel="stylesheet" type="text/css" href="../../../css/dev.css"/>
+     <link rel="stylesheet" type="text/css" href="../scripts/zdev.css"/>
     <script src="../../../Scripts/jquery.min.js"></script>
     <script src="../../../Scripts/jquery-ui.min.js"></script>
     <script src="../../../Scripts/bootstrap.min.js"></script>
@@ -93,7 +92,7 @@
    
 
 
-    <<!--<script src="../../../Scripts/jquery.js"></script>
+    <!--<script src="../../../Scripts/jquery.js"></script>
          <link rel="stylesheet" href="../../../css/bootstrap.min.css" />
     <script src="../../../Scripts/bootstrap.js"></script>-->
     <script src="../../../Scripts/react-bootstrap.min.js"></script>
@@ -107,7 +106,7 @@
     <script type="text/babel" src="../scripts/Instrumento.js"></script>
     <script type="text/babel" src="../scripts/Instrumentos.js"></script>
     <script type="text/babel" src="../scripts/Modulos.js"></script>
-       <script type="text/babel" src="../scripts/PanelPreguntas.js"></script>
+     <script type="text/babel" src="../scripts/PanelPreguntas.js"></script>
     <script type="text/babel" src="../scripts/Pregunta.js"></script>
     <script type="text/babel" src="../scripts/Reactivos.js"></script>
     <script type="text/babel" src="../scripts/PopupReactivos.js"></script>

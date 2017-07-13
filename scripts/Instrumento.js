@@ -71,7 +71,7 @@ class Instrumento extends  React.Component {
     /*fin  WS */
 
     handleModalDelete(decition) {
-        debugger;
+       
         if (decition.action) {
             this
                 .props

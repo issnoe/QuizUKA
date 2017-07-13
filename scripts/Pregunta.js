@@ -78,7 +78,7 @@ class Pregunta extends React.Component {
     }
     componentWillReceiveProps(next_props) {
        
-       debugger;
+     
        this
        if(next_props.q && next_props.q.options){
          this.setState({ options: next_props.q.options });
