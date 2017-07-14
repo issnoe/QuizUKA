@@ -102,7 +102,7 @@
                         try {
 
                             var castJsonPregunta = JSON.parse(preguntaJson);
-
+                            debugger
                             var pregunta = (
                                 <div className="reg-preg" key={lista[key].id}>
 
@@ -121,7 +121,9 @@
                                 </div>
                             )
                             listaRender.push(pregunta);
-                        } catch (ex) {}
+                        } catch (ex) {
+                            debugger
+                        }
 
                     }
 

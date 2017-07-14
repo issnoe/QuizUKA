@@ -139,7 +139,7 @@
 
     }
     reloadList() {
-        debugger;
+      
         this._getReactivosWS(this.state.father.id, function (data) {
             var listaReactivos = data.d[0].reactivos
             if (listaReactivos != "") {
@@ -166,14 +166,12 @@
         // });
 
 
-
+            
 
 
 
         var callbackDeleteReloadList = function (lista, callback) {
             for (var key in listaToRemove) {
-                debugger
-
                 this.deleteReactivo(listaToRemove[key], function (data) {
 
 

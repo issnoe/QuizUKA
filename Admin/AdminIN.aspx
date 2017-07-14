@@ -1,16 +1,10 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="false" CodeBehind="AdminIN.aspx.cs" Inherits="InfoKilo.WebApp.Miembros.IN.Admin.AdminIN" %>
-
 <!DOCTYPE html>
 <html  >
 <head>
-
 <title>Administrador de Instrumentos</title>
-
 </head>
-
 <body>
-
-	<!-- HEADER -->
     <header class="container-fullwidth">
     	<div class="container">
     	<div class="col-md-6 col-sm-6 col-xs-5">
@@ -19,12 +13,9 @@
             </div>
 		</div>
         <div class="col-md-6 col-sm-6 col-xs-7  text-right">
-        	
 		</div>
         </div>
     </header>
-    
-    <!-- CONTAINER -->
     <div>
         <div class="container">
             <div class="row">
@@ -39,19 +30,13 @@
         </div> 
 	</div>
     <div id="reactIntrumentsApp" ></div>
-  
-    
     <footer>
     	&nbsp;
     </footer>
-
-
-
     <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css"/>
     <link href="https://file.myfontastic.com/CrszDy9EX5PKEPWYeoAXdg/icons.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
     <link rel="stylesheet" type="text/css" href="../../../css/xt.css"/>
-
     <link rel="stylesheet" type="text/css" href="../../../css/form.css"/>
     <link rel="stylesheet" type="text/css" href="../../../css/icons.css"/>
     <link rel="stylesheet" type="text/css" href="../../../css/flexslider.css"/>
