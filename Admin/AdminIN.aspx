@@ -53,7 +53,9 @@
     
     -->
     <script src="../../../Scripts/src-react/react.js"></script>
+ 
     <script src="../../../Scripts/src-react/react-dom.js"></script>
+     <!--  <script src="https://fb.me/react-with-addons-0.13.3.min.js"></script>-->
     <script src="../../../Scripts/src-react/babel.min.js"></script>
     <script src="../../../Scripts/src-react/react-motion.js"></script>
      <script src="../../../Scripts/src-react/react-collapse.min.js"></script>
@@ -74,6 +76,8 @@
     <script src="../../../Scripts/react-bootstrap.min.js"></script>
    
 
+
+
      <script type="text/babel" src="../scripts/BasePreguntas.js"></script>
  
     <script type="text/babel" src="../scripts/PopupMsg.js"></script>
@@ -85,7 +89,12 @@
      <script type="text/babel" src="../scripts/PanelPreguntas.js"></script>
     <script type="text/babel" src="../scripts/Pregunta.js"></script>
     <script type="text/babel" src="../scripts/Reactivos.js"></script>
+
+
+    <script type="text/babel" src="../scripts/Modulo.js"></script>
+
     <script type="text/babel" src="../scripts/PopupReactivos.js"></script>
+     <script type="text/babel" src="../scripts/ReactivosConteiner.js"></script>
     <script type="text/babel" src="../scripts/start.js"></script>
 
 </body>

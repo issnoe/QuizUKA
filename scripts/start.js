@@ -75,63 +75,87 @@ const MULTIPLE = {
 
 moment.locale('es');
 
-var showAuthorInfo = function () {
-    alert("kdjs")
-};
-
 var App = React.createClass({
     getInitialState: function () {
-        return {routerPath: "home"};
+        return {routerPath: "home", idModulo:undefined};
     },
-    listBooks: function () {
-        alert("se debe de mostrar el panel")
-    }.bind(this),
-    listBooksid: function (id) {
-        alert("se debe de mostrar el panel" + id)
-    }.bind(this),
+    hangleModulo: function (id) {
+        var idM = parseInt(id)
+        this.setState({routerPath: "modulo", idModulo: idM})
+    },
+    hangleHome: function () {
+        this.setState({routerPath: "home", idModulo: undefined})
+        },
     componentDidMount: function () {
-        var setState = this.setState;
-        var router = Router({
-            '/': setState.bind(this, {routerPath: "home"}),
-            '/modulo': this.listBooks,
-            '/modulo/:id': setState.bind(this, {routerPath: "modulo"})
-        });
+        var router = Router({'/': this.hangleHome, '/modulo': this.listBooks, '/modulo/:id': this.hangleModulo});
         router.init('/');
     },
     render: function () {
 
         var renderConteiner;
-
+         var renderNavigator;
+     
         switch (this.state.routerPath) {
             case "home":
                 renderConteiner = (<Instrumentos/>);
+                 renderNavigator = (
+                    <div className="col-md-12 col-sm-12">
+                        <ol className="breadcrumb">
+                            <li>
+                                <a href="/Miembros/MenuPrincipal">Inicio</a>
+                            </li>
+                            <li >
+                                Administrador de Instrumentos
+                            </li>
+
+                        </ol>
+                    </div>
+                );
                 break;
             case "modulo":
-                renderConteiner = (
-                    <h1>Modulo</h1>
+                renderConteiner = (<Modulo id={this.state.idModulo}/>);
+                renderNavigator = (
+                    <div className="col-md-12 col-sm-12">
+                        <ol className="breadcrumb">
+                            <li>
+                                <a href="#">Inicio</a>
+                            </li>
+                            <li >
+                                <a href="#">Administrador de Instrumentos</a>
+                            </li>
+                            <li >
+                                Modulo
+                            </li>
+                        </ol>
+                    </div>
                 );
                 break;
             default:
                 renderConteiner = (
-                    <div className="spinner"></div>
+                    <h1>Sin datos</h1>
+                );
+                renderNavigator = (
+                    <div className="col-md-12 col-sm-12">
+                        <ol className="breadcrumb">
+                            <li>
+                                <a href="#">Inicio</a>
+                            </li>
+                            <li >
+                                <a href="#">Administrador de Instrumentos</a>
+                            </li>
+                        </ol>
+                    </div>
                 );
                 break;
         }
+
+       
 
         return (
             <div>
                 <div className="container">
                     <div className="row">
-                        <div className="col-md-12 col-sm-12">
-                            <ol className="breadcrumb">
-                                <li>
-                                    <a href="#">Inicio</a>
-                                </li>
-                                <li >
-                                    <a href="#">Administrador de Instrumentos</a>
-                                </li>
-                            </ol>
-                        </div>
+                        {renderNavigator}
 
                     </div>
                 </div>

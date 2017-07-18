@@ -3,7 +3,7 @@ class ModuloItem extends BasePreguntas {
         super(props);
         this.state={}
         this.state.showModalDelete = false;
-        this.state.showModalPregunta = false
+       
 
     }
      handleModal(decition) {
@@ -85,14 +85,7 @@ class ModuloItem extends BasePreguntas {
                                 </ul>
                             </div>
                 </div>
-                <PopupReactivos
-                    onChange={this
-                    .handleModalPregunta
-                    .bind(this)}
-                    father={this.props.item}
-                    show={this.state.showModalPregunta}
-                    title="Pregunta"/> 
-                
+            
                  <PopupMsg
                     onChange={this
                     .handleModal

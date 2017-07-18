@@ -1,5 +1,4 @@
-﻿
-class PopupReactivos extends React.Component {
+class Reactivos extends React.Component {
     constructor(props) {
         super(props);
         this.state = {}
@@ -189,24 +188,16 @@ class PopupReactivos extends React.Component {
     }
     render() {
         return (
-            <Modal show={this.props.show} dialogClassName="modal-dialog modal-lg">
+            <div>
 
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <button
-                            type="button"
-                            className="close"
-                            onClick={this
-                            .decition
-                            .bind(this, 3)}>
-                            <span aria-hidden="true">×</span>
-                        </button>
-                        <h4 className="modal-title" id="myModalLabel">{(this.state.father && this.state.father.prefijo)
+                <div className="container">
+                    <div className="row">
+                        
+                        <h4 className="col-md-12" >{(this.state.father && this.state.father.prefijo)
                                 ? (this.state.father.prefijo + "." + this.state.father.modulo)
                                 : "."}</h4>
                     </div>
-
-                    <div className="modal-body">
+                    <div className="container">
                         <div className="row">
                             <div className="col-md-4 pregunta-div">
                                 <Preguntas
@@ -227,7 +218,7 @@ class PopupReactivos extends React.Component {
 
                     </div>
 
-                    <div className="modal-footer">
+                    <div className="row">
                         <button
                             type="button"
                             className="btn btn-primary"
@@ -243,13 +234,12 @@ class PopupReactivos extends React.Component {
                         <button
                             type="button"
                             className="btn btn-default"
-                            data-dismiss="modal"
                             onClick={this
                             .decition
                             .bind(this, 3)}>Cancelar</button>
                     </div>
                 </div>
-            </Modal>
+            </div>
         )
     }
 }

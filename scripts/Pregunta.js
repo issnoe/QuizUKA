@@ -94,8 +94,9 @@ class Pregunta extends React.Component {
         e.preventDefault();
         var valor = e.target.value
         var mask = e.target.name
+        var valorTrim = valor.trim()
         this.setState({
-            [mask]: valor
+            [mask]: valorTrim
         }, function () {this.props.onChange(this.state)}.bind(this));
 
     }
@@ -110,7 +111,11 @@ class Pregunta extends React.Component {
     render() {
         
         
-        var listaRespuestas ="respuesta abierta";
+        var listaRespuestas =(<div className="col-md-12">
+
+                <div className="form-group">
+                    <small>Respuesta abierta</small>
+                    </div></div>);
         if (this.state && this.state.options) {
           
             listaRespuestas = this
@@ -206,6 +211,15 @@ class Preguntas extends  FormMaster{
         }.bind(this));
         
     }
+    saveClose(e){
+   e.preventDefault();
+   debugger
+    this
+    }
+    saveNext(e){
+    e.preventDefault();
+    this.props.saveNext(this.state)
+        }
     render() {
         return (
              <div >
@@ -255,6 +269,21 @@ class Preguntas extends  FormMaster{
                                 .bind(this)}className="form-control pregunta"></textarea>
                         </div>
                     </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-6"> <button
+                            type="button"
+                            className="btn btn-primary"
+                            onClick={this.saveNext.bind(this)}>Agregar siguiente</button></div>
+                     <div className="col-md-6">
+                          <button
+                            type="button"
+                            className="btn btn-primary"
+                           onClick={this.saveClose.bind(this)}>Guardar y cerrar</button>
+                     </div>
+                     
+                       
+
                 </div>
             </div>
         )
