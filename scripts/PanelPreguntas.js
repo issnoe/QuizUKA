@@ -1,4 +1,40 @@
-﻿class PanelPreguntas extends React.Component {
+﻿class PreguntaAnwered extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            checked: false
+        }
+        debugger;
+    
+
+    }
+    onHandleCheck(e) {
+        debugger
+        // setState({
+        //     checked: !this.state.checked
+        // });
+        //this.props.onToggle;
+    }
+    render() {
+        return (
+            <div className="reg-preg">
+
+                <input
+                    type="checkbox"
+                    name={this.props.item.id}
+                    value={this.state.checked}
+                    onChange={()=>{alert("que pasa")}}
+                    className="check-preg"/>
+                <strong> {this.props.prefijo}</strong>
+                {this.props.castJsonPregunta[0].question}<br/>
+                <small >{this.props.item.nota}</small>
+
+            </div>
+        )
+    }
+}
+
+class PanelPreguntas extends React.Component {
     constructor(props) {
         super(props);
         this.state = {}
@@ -10,7 +46,7 @@
     componentWillReceiveProps(nextProps) {
         var lista = nextProps.listaReactivosJson
         if (lista.length > 0) {
-            this.setState({statelistaReactivos:nextProps.listaReactivosJson,spinerLoad:false,listaIdBorrados:[] })
+            this.setState({statelistaReactivos: nextProps.listaReactivosJson, spinerLoad: false, listaIdBorrados: []})
         }
     }
     deleteSelected(e) {
@@ -22,7 +58,7 @@
 
     }
     componentWillUnmount() {
-        this.setState({spinerLoad:false,listaIdBorrados:[] })
+        this.setState({spinerLoad: false, listaIdBorrados: []})
     }
     handleDelete(e) {
 
@@ -45,6 +81,10 @@
         } catch (error) {}
 
     }
+    onToggle(item) {
+        debugger
+
+    }
     // handleAllCheckes(e){     debugger     this.setState({checkedAll:true}); }
     renderReactivos() {
         if (this.state.statelistaReactivos && this.state.statelistaReactivos.length > 0 && this.state.spinerLoad == false) {
@@ -59,26 +99,17 @@
                     if (preguntaJson != "") {
 
                         try {
-
+                            debugger
                             var castJsonPregunta = JSON.parse(preguntaJson);
-
-                            var pregunta = (
-                                <div className="reg-preg" key={lista[key].id}>
-
-                                    <input
-                                        type="checkbox"
-                                        name={lista[key].id}
-                                        defaultChecked={true}
-                                        onChange={this
-                                        .handleDelete
-                                        .bind(this)}
-                                        className="check-preg"/>
-                                    <strong>{this.props.father.prefijo + "." + (parseInt(key) + 1) + "  "}</strong>
-                                    {castJsonPregunta[0].question}<br/>
-                                    <small >{lista[key].nota}</small>
-
-                                </div>
-                            )
+                            var pregunta = (<PreguntaAnwered
+                                key={lista[key].id}
+                                item={lista[key]}
+                                onToggle={this.onToggle.bind(this,lista[key] )}
+                                prefijo={this.props.father.prefijo + "." + (parseInt(key) + 1) + " "}
+                                castJsonPregunta={castJsonPregunta}
+                                onChange={this
+                                .handleDelete
+                                .bind(this)}/>)
                             listaRender.push(pregunta);
                         } catch (ex) {}
 
@@ -162,8 +193,8 @@
 
     // <div className="row resp-reg">                         <div
     // className="col-md-4 text-center"> <strong>a)</strong>     Respuesta 1</div>
-    //         <div className="col-md-4 text-center"> <strong>a)</strong>
-    //         Respuesta 1</div>  <div className="col-md-4 text-center">
-    // <strong>a)</strong>             Respuesta 1</div>           </div>
+    // <div className="col-md-4 text-center"> <strong>a)</strong> Respuesta 1</div>
+    // <div className="col-md-4 text-center"> <strong>a)</strong> Respuesta 1</div>
+    //          </div>
 
 }

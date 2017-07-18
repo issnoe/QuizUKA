@@ -16,19 +16,7 @@
 		</div>
         </div>
     </header>
-    <div>
-        <div class="container">
-            <div class="row">
-            	<div class="col-md-12 col-sm-12">
-                	<ol class="breadcrumb">
-                      <li><a href="#">Inicio</a></li>
-                      <li>Administrador de Instrumentos</li>
-                    </ol>
-                </div>
-                
-            </div>
-        </div> 
-	</div>
+  
     <div id="reactIntrumentsApp" ></div>
     <footer>
     	&nbsp;
@@ -75,6 +63,9 @@
    
     <link href="https://file.myfontastic.com/CrszDy9EX5PKEPWYeoAXdg/icons.css" rel="stylesheet"/>
    
+<script
+      src="https://rawgit.com/flatiron/director/master/build/director.min.js">
+    </script>
 
 
     <!--<script src="../../../Scripts/jquery.js"></script>

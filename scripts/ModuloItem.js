@@ -78,10 +78,8 @@ class ModuloItem extends BasePreguntas {
                                             Eliminar</a>
                                     </li>
                                      <li>
-                                        <a
-                                            onClick={() => {
-                                            this.setState({showModalPregunta: true})
-                                        }}><img src="../../../images/add.svg" alt="Agregar módulo" height="18"/>
+                                        <a href={"#/modulo/"+this.props.item.id}
+                                            ><img src="../../../images/add.svg" alt="Agregar módulo" height="18"/>
                                             Agregar pregunta</a>
                                     </li>
                                 </ul>
@@ -93,7 +91,7 @@ class ModuloItem extends BasePreguntas {
                     .bind(this)}
                     father={this.props.item}
                     show={this.state.showModalPregunta}
-                    title="Pregunta"/>
+                    title="Pregunta"/> 
                 
                  <PopupMsg
                     onChange={this

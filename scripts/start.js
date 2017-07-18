@@ -64,8 +64,7 @@ const MULTIPLE = {
             "option": "b",
             "condition": 'A1',
             "type": 'checkbox'
-        },
-        {
+        }, {
             "option": "c",
             "condition": 'A1',
             "type": 'checkbox'
@@ -75,31 +74,75 @@ const MULTIPLE = {
 }
 
 moment.locale('es');
-function App() {
-    return (
-        <div className="bg-full padding-top-10">
-            <Instrumentos/>
-        </div>
-    );
-}
+
+var showAuthorInfo = function () {
+    alert("kdjs")
+};
+
+var App = React.createClass({
+    getInitialState: function () {
+        return {routerPath: "home"};
+    },
+    listBooks: function () {
+        alert("se debe de mostrar el panel")
+    }.bind(this),
+    listBooksid: function (id) {
+        alert("se debe de mostrar el panel" + id)
+    }.bind(this),
+    componentDidMount: function () {
+        var setState = this.setState;
+        var router = Router({
+            '/': setState.bind(this, {routerPath: "home"}),
+            '/modulo': this.listBooks,
+            '/modulo/:id': setState.bind(this, {routerPath: "modulo"})
+        });
+        router.init('/');
+    },
+    render: function () {
+
+        var renderConteiner;
+
+        switch (this.state.routerPath) {
+            case "home":
+                renderConteiner = (<Instrumentos/>);
+                break;
+            case "modulo":
+                renderConteiner = (
+                    <h1>Modulo</h1>
+                );
+                break;
+            default:
+                renderConteiner = (
+                    <div className="spinner"></div>
+                );
+                break;
+        }
+
+        return (
+            <div>
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-12 col-sm-12">
+                            <ol className="breadcrumb">
+                                <li>
+                                    <a href="#">Inicio</a>
+                                </li>
+                                <li >
+                                    <a href="#">Administrador de Instrumentos</a>
+                                </li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+                < div className="bg-full padding-top-10">
+                    {renderConteiner}
+                </div>
+            </div>
+        )
+
+    }
+});
+
 ReactDOM.render(
     <App/>, document.getElementById('reactIntrumentsApp'));
-/**
- * #Cargar el state
- * #Solo una vez
- * #setState
- * #Recive Props
- *
- * componentWillMount
- *
- * constructor(props){
-    super(props);
-   }
-
- * #Carga state
- * #Solo una vez
- * #setState
- * #Recive Props
- *
- * componentDidMount
- */
