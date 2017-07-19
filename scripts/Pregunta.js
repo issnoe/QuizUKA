@@ -77,17 +77,15 @@ class Pregunta extends React.Component {
         this.state = this.props.q
     }
     componentWillReceiveProps(next_props) {
-       
-     
-       this
-       if(next_props.q && next_props.q.options){
-         this.setState({ options: next_props.q.options });
-       }else if(next_props.q){
-            this.setState({ options:null });
-       }
-       
+
+        this
+        if (next_props.q && next_props.q.options) {
+            this.setState({options: next_props.q.options});
+        } else if (next_props.q) {
+            this.setState({options: null});
+        }
+
     }
-   
 
     handleInput(e) {
         //Maneja la respuesta
@@ -97,27 +95,31 @@ class Pregunta extends React.Component {
         var valorTrim = valor.trim()
         this.setState({
             [mask]: valorTrim
-        }, function () {this.props.onChange(this.state)}.bind(this));
+        }, function () {
+            this
+                .props
+                .onChange(this.state)
+        }.bind(this));
 
     }
-    
-    handleRespuesta(e) {
 
-       // this
-        // this.setState({respuestas:e}, function(){      this             .props
+    handleRespuesta(e) {
+        // this this.setState({respuestas:e}, function(){      this             .props
         // .onChange(state) })
     }
 
     render() {
-        
-        
-        var listaRespuestas =(<div className="col-md-12">
+
+        var listaRespuestas = (
+            <div className="col-md-12">
 
                 <div className="form-group">
                     <small>Respuesta abierta</small>
-                    </div></div>);
+                </div>
+            </div>
+        );
         if (this.state && this.state.options) {
-          
+
             listaRespuestas = this
                 .state
                 .options
@@ -141,8 +143,7 @@ class Pregunta extends React.Component {
                             onChange={this
                             .handleInput
                             .bind(this)}
-                            value={this.state.question}
-                           ></textarea>
+                            value={this.state.question}></textarea>
                     </div>
                 </div>
 
@@ -152,48 +153,49 @@ class Pregunta extends React.Component {
     }
 }
 
-class Preguntas extends  FormMaster{
+class Preguntas extends FormMaster {
     constructor(props) {
         super(props);
         this.state = {
             "reactivo": 0,
             "tipopregunta": 0,
-            "preguntaJson":[ABIERTA],
+            "preguntaJson": [ABIERTA],
             "nota": ""
         }
     }
-   
-    
 
-    handlePregunta(e){
-        var listaPreguntas =[e];
-        this.setState({preguntaJson:listaPreguntas},function(){
-         
+    handlePregunta(e) {
+        var listaPreguntas = [e];
+        this.setState({
+            preguntaJson: listaPreguntas
+        }, function () {
+
             var state = this.state;
-             this.props.onChange(state)   
+            this
+                .props
+                .onChange(state)
         }.bind(this))
 
     }
-     handleType(e) {
+    handleType(e) {
         e.preventDefault();
-      
+
         var valorAux = e.target.value
         var mask = e.target.name
         var valor;
         valor = parseInt(valorAux);
-        if(valor==1){
-            this.setState({preguntaJson:[MULTIPLE], [mask]:valor}, function(){
-                
-            })
-        }else{
-             this.setState({preguntaJson:[ABIERTA],[mask]:valor})
+        if (valor == 1) {
+            this
+                .setState({
+                    preguntaJson: [MULTIPLE],
+                    [mask]: valor
+                }, function () {})
+        } else {
+            this.setState({preguntaJson: [ABIERTA], [mask]: valor})
         }
 
-       
-       
-        
     }
-     handleInput(e) {
+    handleInput(e) {
         e.preventDefault();
         var valorAux = e.target.value
         var mask = e.target.name
@@ -203,26 +205,33 @@ class Preguntas extends  FormMaster{
         } else {
             valor = valorAux
         }
-        
-        this.setState({[mask]: valor},function(){
-         
-            var state = this.state;
-             this.props.onChange(state)   
-        }.bind(this));
-        
+
+        this
+            .setState({
+                [mask]: valor
+            }, function () {
+
+                var state = this.state;
+                this
+                    .props
+                    .onChange(state)
+            }.bind(this));
+
     }
-    saveClose(e){
-   e.preventDefault();
-   debugger
-    this
+    saveClose(e) {
+        e.preventDefault();
+        debugger
+        this
     }
-    saveNext(e){
-    e.preventDefault();
-    this.props.saveNext(this.state)
-        }
+    saveNext(e) {
+        e.preventDefault();
+        this
+            .props
+            .saveNext(this.state)
+    }
     render() {
         return (
-             <div >
+            <div >
                 <div className="row">
                     <div className="col-md-4 col-sm-4 ">
                         <div className="form-group">
@@ -258,11 +267,19 @@ class Preguntas extends  FormMaster{
                             </select>
                         </div>
                     </div>
-                    <Pregunta index={this.props.clean} type={this.state.tipopregunta} q={this.state.preguntaJson[0]} onChange={this.handlePregunta.bind(this)}/>
+                    <Pregunta
+                        index={this.props.clean}
+                        type={this.state.tipopregunta}
+                        q={this.state.preguntaJson[0]}
+                        onChange={this
+                        .handlePregunta
+                        .bind(this)}/>
                     <div className="col-md-12">
                         <div className="form-group">
                             <label className="label">Nota(s):</label>
-                            <textarea value={this.state.nota} name="nota"
+                            <textarea
+                                value={this.state.nota}
+                                name="nota"
                                 placeholder="Escribe una nota."
                                 onChange={this
                                 .handleInput
@@ -271,18 +288,22 @@ class Preguntas extends  FormMaster{
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-md-6"> <button
+                    <div className="col-md-6">
+                        <button
                             type="button"
                             className="btn btn-primary"
-                            onClick={this.saveNext.bind(this)}>Agregar siguiente</button></div>
-                     <div className="col-md-6">
-                          <button
+                            onClick={this
+                            .saveNext
+                            .bind(this)}>Agregar siguiente</button>
+                    </div>
+                    <div className="col-md-6">
+                        <button
                             type="button"
                             className="btn btn-primary"
-                           onClick={this.saveClose.bind(this)}>Guardar y cerrar</button>
-                     </div>
-                     
-                       
+                            onClick={this
+                            .saveClose
+                            .bind(this)}>Guardar y cerrar</button>
+                    </div>
 
                 </div>
             </div>

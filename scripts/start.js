@@ -48,7 +48,7 @@ const PERSONAS = [
     }
 ];
 const ABIERTA = {
-    "question": '¿',
+    "question": '',
     "answer": 'undefined'
 } // init
 

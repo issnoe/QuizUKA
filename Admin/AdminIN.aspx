@@ -35,6 +35,7 @@
     <script src="../../../Scripts/bootstrap.min.js"></script>
     <script src="../../../Scripts/moment-with-locales.js"></script>
     <script src="../../../Scripts/src-react/prop-types.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
    
     <!--
 <script src="../../../Scripts/jquery.flexslider.js"></script>
@@ -89,12 +90,7 @@
      <script type="text/babel" src="../scripts/PanelPreguntas.js"></script>
     <script type="text/babel" src="../scripts/Pregunta.js"></script>
     <script type="text/babel" src="../scripts/Reactivos.js"></script>
-
-
     <script type="text/babel" src="../scripts/Modulo.js"></script>
-
-    <script type="text/babel" src="../scripts/PopupReactivos.js"></script>
-     <script type="text/babel" src="../scripts/ReactivosConteiner.js"></script>
     <script type="text/babel" src="../scripts/start.js"></script>
 
 </body>

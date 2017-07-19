@@ -229,7 +229,7 @@ namespace InfoKilo.WebApp.Miembros.IN.Admin
         
          //Eliminar
          [System.Web.Services.WebMethod]
-         public static void deleteReactivo(int id)
+         public static int deleteReactivo(int id)
          {
              Repository<Reactivos> crudRepository = new Repository<Reactivos>();
              try
@@ -237,8 +237,8 @@ namespace InfoKilo.WebApp.Miembros.IN.Admin
 
                  using (TransactionScope tran = new TransactionScope())
                  {
-                     var data = crudRepository.Retrieve(f => f.id == id);
-                     Boolean exist = (data != null);
+                     Boolean exist = crudRepository.Retrieve(f => f.id == id) != null;
+                     
                      if (exist)
                      {
                          crudRepository.Delete(crudRepository.Retrieve(f => f.id == id));
@@ -253,7 +253,9 @@ namespace InfoKilo.WebApp.Miembros.IN.Admin
              catch (Exception es)
              {
                  var exeption = es;
+                 return 501;
              }
+             return 200;
          }
 
         
