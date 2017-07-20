@@ -30,43 +30,35 @@
     render() {
         return (
             <div className="col-md-12">
+            <div className="reg-preg row">
+                <div className="col-md-12">
 
-                <div className="form-group">
-                    <label className="label">Opción</label>
-                    {(this.state.type == "checkbox" || this.state.type == "radio")
-                        ? (
-                            <div><input type={this.state.type}/><input
-                                type="text"
+                    <div className="form-group">
+                        <label className="label">Opción</label>
+                        {(this.state.type == "checkbox" || this.state.type == "radio")
+                            ? (
+                                <div><input type={this.state.type}/><input
+                                    type="text"
+                                    name="respuesta"
+                                    onChange={this
+                                    .handleInput
+                                    .bind(this)}
+                                    value={this.state.respuesta}/></div>
+                            )
+                            : (<input
+                                type={this.state.type}
                                 name="respuesta"
                                 onChange={this
                                 .handleInput
                                 .bind(this)}
-                                value={this.state.respuesta}/></div>
-                        )
-                        : (<input
-                            type={this.state.type}
-                            name="respuesta"
-                            onChange={this
-                            .handleInput
-                            .bind(this)}
-                            value={this.state.respuesta}/>)
+                                value={this.state.respuesta}/>)
 }
 
-                </div>
-                {/*<div className="col-md-12">
-                    <div className="form-group">
-                        <label className="label">Condicion</label>
-
-                        <input
-                            type="text"
-                            value={(this.state.condicion)
-                            ? (this.state.condicion)
-                            : "Sin condicion"}/>
-
                     </div>
-                </div>*/}
-            </div>
 
+                </div>
+            </div>
+            </div>
         )
 
     }
@@ -169,7 +161,6 @@ class Preguntas extends FormMaster {
         this.setState({
             preguntaJson: listaPreguntas
         }, function () {
-
             var state = this.state;
             this
                 .props
@@ -220,7 +211,6 @@ class Preguntas extends FormMaster {
     }
     saveClose(e) {
         e.preventDefault();
-        debugger
         this
     }
     saveNext(e) {

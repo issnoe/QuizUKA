@@ -102,18 +102,20 @@ class Modulo extends React.Component {
                         </div>
                     </div>
                 </div>
+                
                 <div className="container">
-                    <div className="col-md-5">
-                        <Preguntas
+
+                    <div className="col-md-5 pregunta-div">
+                            <Question
                             prefijoPregunta={this.state.modulo.prefijo + "." + (this.state.modulo.reactivos.length + 1)}
                             saveClose={this
                             .saveClose
                             .bind(this)}
                             saveNext={this
                             .saveNext
-                            .bind(this)}/>
+                            .bind(this)}/> 
                     </div>
-                    <div className="col-md-7">
+                    <div className="col-md-7 col-sm-5">
                         <PanelPreguntas
                             modulo={this.state.modulo}
                             deleteSelected={this

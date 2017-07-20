@@ -21,7 +21,11 @@ const TIPOPREGUNTAS = [
     }, {
         id: 1,
         data: "Multiple"
+    }, {
+        id: 2,
+        data: "Indexada"
     }
+    
 ];
 const STATUS = [
     {
@@ -54,19 +58,11 @@ const ABIERTA = {
 
 ///radio //checkbox // text //
 const MULTIPLE = {
-    "question": '¿',
+    "question": '',
     "options": [
         {
-            "option": "a",
-            "condition": 'A1',
-            "type": 'checkbox'
-        }, {
-            "option": "b",
-            "condition": 'A1',
-            "type": 'checkbox'
-        }, {
-            "option": "c",
-            "condition": 'A1',
+            "option": "",
+            "condition": '',
             "type": 'checkbox'
         }
     ],

@@ -1,4 +1,33 @@
 ﻿class PreguntaManager extends React.Component {
+    renderOption() {
+
+        if (this.props.castJsonPregunta && this.props.castJsonPregunta[0].options) {
+            var lista = this.props.castJsonPregunta[0].options;
+            var options = []
+            for (var index in lista) {
+                var item = lista[index].option;
+                try {
+                    options.push(
+                        <div
+                            key={index + "_option_" + this.props.item.id}
+                            className="col-md-4 text-center">
+                            <strong>{parseInt(index) +1})</strong>
+                            {item}</div>
+                    )
+                } catch (error) {
+                    alert("existe una opcion que se repite en un reactivo")
+                }
+
+            }
+            return (
+                <div className="row resp-reg">
+                    {options}
+                </div>
+            );
+        }
+
+    }
+
     render() {
         return (
             <div className="reg-preg">
@@ -10,13 +39,13 @@
                     className="check-preg"/>
                 <strong>
                     {this.props.prefijo + " "}</strong>
-                    {this.props.castJsonPregunta[0].question}<br/>
+                {this.props.castJsonPregunta[0].question}<br/>
                 <small >{this.props.item.nota}</small>
+                {this.renderOption()}
             </div>
         )
     }
 }
-
 class PanelPreguntas extends React.Component {
     constructor(props) {
         super(props);
@@ -95,7 +124,6 @@ class PanelPreguntas extends React.Component {
             )
         }
         if (modulo && modulo.reactivos == "") {
-            debugger
             return (
                 <div >Sin preguntas</div>
             )
@@ -115,7 +143,9 @@ class PanelPreguntas extends React.Component {
                     <div className="col-md-12 text-right">
                         <a
                             onClick={() => {
-                            this.props.deleteSelected(this.state.listDetele)
+                            this
+                                .props
+                                .deleteSelected(this.state.listDetele)
                         }}><img src="../../../images/erase-gray.svg" height="18"/>
                             Eliminar preguntas seleccionadas</a>
                     </div>
