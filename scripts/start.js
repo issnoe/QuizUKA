@@ -68,6 +68,11 @@ const MULTIPLE = {
     ],
     "answer": 'undefined'
 }
+const INDEXADA = {
+    "question": '',
+    "questionIndexed":[MULTIPLE],
+    "answer": 'undefined'
+}
 
 moment.locale('es');
 

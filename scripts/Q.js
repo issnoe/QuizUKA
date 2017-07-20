@@ -1,6 +1,7 @@
+
 class Anwer extends React.Component {
-  componentWillUnmount() {
-        
+    componentWillUnmount() {
+
         this.setState({});
     }
     render() {
@@ -51,7 +52,7 @@ class Question extends React.Component {
             "nota": ""
         }
     }
-     renderStatus() {
+    renderStatus() {
         return (STATUS.map(function (i) {
             return (
                 <option key={i.id + "_status_option_"} value={i.id}>{i.data}</option>
@@ -90,20 +91,25 @@ class Question extends React.Component {
         this.setState(state);
     }
     handleReactivoType(e) {
-      
+
         var valor = parseInt(e.target.value)
         var mask = e.target.name
         this.setState({[mask]: valor});
     }
     handleQuestionType(e) {
-        
+
         var valor = parseInt(e.target.value)
         var mask = e.target.name
         var valor;
         debugger
         if (valor == 1) {
             this.setState({preguntaJson: [MULTIPLE], [mask]: valor})
-        } else {
+        }
+        if (valor == 2) {
+            this.setState({preguntaJson: [INDEXADA], [mask]: valor})
+        }
+         
+        else {
             this.setState({preguntaJson: [ABIERTA], [mask]: valor})
         }
 
@@ -153,12 +159,12 @@ class Question extends React.Component {
         e.preventDefault()
         debugger;
         var index = parseInt(i)
-       
+
         debugger;
         var question = this.state.preguntaJson;
         var listaOpciones = question[0].options;
         listaOpciones.splice(index, 1)
-          question[0].options = listaOpciones;
+        question[0].options = listaOpciones;
         this.setState({preguntaJson: question})
 
     }
@@ -212,7 +218,7 @@ class Question extends React.Component {
 
             return (
                 <div>
-                     {this.renderOption()}
+                    {this.renderOption()}
                     <div className="col-md-12 text-right">
                         <h5>
                             <a
@@ -221,63 +227,17 @@ class Question extends React.Component {
                                 .bind(this)}>Agregar opción<img src="../../../../images/add.svg"/></a>
                         </h5>
                     </div>
-                   
 
                 </div>
             )
 
         }
     }
-    render() {
-        return (
-            <div>
-                <div className="row">
-                    <div className="col-md-4">
-                        <div className="form-group">
-                            <label className="label">Reactivo</label>
-                            <select
-                                value={this.state.reactivo}
-                                className="form-control"
-                                type="text"
-                                name="reactivo"
-                                onChange={this
-                                .handleReactivoType
-                                .bind(this)}>
-                                {this.renderTipoReativo()}
-                            </select>
-                        </div>
-                    </div>
-                    <div className="col-md-4">
-                        <label className="label">Prefijo</label>
-                        <input type="text" className="form-control" value={this.props.prefijoPregunta}/>
-                    </div>
-                    <div className="col-md-4">
-                        <div className="form-group">
-                            <label className="label">Tipo de pregunta</label>
-                            <select
-                                value={this.state.tipopregunta}
-                                className="form-control"
-                                name="tipopregunta"
-                                onChange={this
-                                .handleQuestionType
-                                .bind(this)}>
-                                {this.renderTipoPregunta()}
-                            </select>
-                        </div>
-                    </div>
+    rednderIndexed() {
+        if (this.state.tipopregunta == 2) {
+            var renderIndexed = (
+                <div>
                     <div className="col-md-12">
-                        <div className="form-group">
-                            <label className="label">Pregunta</label>
-                            <textarea
-                                className="form-control pregunta"
-                                name="preguntaJson"
-                                onChange={this
-                                .handleTextQuestion
-                                .bind(this)}></textarea>
-                        </div>
-                    </div>
-
-                    {/* <div className="col-md-12">
                         <div className="reg-preg row">
                             <div className="col-md-4">
                                 <div className="form-group">
@@ -332,15 +292,69 @@ class Question extends React.Component {
                                 </h5>
                             </div>
                         </div>
-                    </div> */}
+                    </div>
+
+                    <div className="col-md-12 text-right">
+                        <h5>
+                            <a >Agregar opción<img src="../../../../images/add.svg"/></a>
+                        </h5>
+                    </div>
+                </div>
+            );
+            return renderIndexed
+        }
+    }
+    render() {
+        return (
+            <div>
+                <div className="row">
+                    <div className="col-md-4">
+                        <div className="form-group">
+                            <label className="label">Reactivo</label>
+                            <select
+                                value={this.state.reactivo}
+                                className="form-control"
+                                type="text"
+                                name="reactivo"
+                                onChange={this
+                                .handleReactivoType
+                                .bind(this)}>
+                                {this.renderTipoReativo()}
+                            </select>
+                        </div>
+                    </div>
+                    <div className="col-md-4">
+                        <label className="label">Prefijo</label>
+                        <input type="text" className="form-control" value={this.props.prefijoPregunta}/>
+                    </div>
+                    <div className="col-md-4">
+                        <div className="form-group">
+                            <label className="label">Tipo de pregunta</label>
+                            <select
+                                value={this.state.tipopregunta}
+                                className="form-control"
+                                name="tipopregunta"
+                                onChange={this
+                                .handleQuestionType
+                                .bind(this)}>
+                                {this.renderTipoPregunta()}
+                            </select>
+                        </div>
+                    </div>
+                    <div className="col-md-12">
+                        <div className="form-group">
+                            <label className="label">Pregunta</label>
+                            <textarea
+                                className="form-control pregunta"
+                                name="preguntaJson"
+                                onChange={this
+                                .handleTextQuestion
+                                .bind(this)}></textarea>
+                        </div>
+                    </div>
 
                     {this.renderOptions()}
-
-                    {/* <div className="col-md-12 text-right">
-                        <h5>
-                            <a href="#">Agregar opción<img src="../../../../images/add.svg"/></a>
-                        </h5>
-                    </div> */}
+                    {this.rednderIndexed()}
                     <div className="col-md-12">
                         <div className="form-group">
                             <label className="label">Nota(s):</label>
@@ -355,21 +369,13 @@ class Question extends React.Component {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-12">
                         <button
                             type="button"
                             className="btn btn-primary"
                             onClick={this
                             .saveNext
-                            .bind(this)}>Agregar siguiente</button>
-                    </div>
-                    <div className="col-md-6">
-                        <button
-                            type="button"
-                            className="btn btn-primary"
-                            onClick={this
-                            .saveClose
-                            .bind(this)}>Guardar y cerrar</button>
+                            .bind(this)}>Guardar</button>
                     </div>
 
                 </div>
