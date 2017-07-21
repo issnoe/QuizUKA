@@ -1,4 +1,3 @@
-
 class Anwer extends React.Component {
     componentWillUnmount() {
 
@@ -42,14 +41,75 @@ class Anwer extends React.Component {
         )
     }
 }
+class LinkedQuestion extends React.Component {
+    render() {
+
+        return (
+            <div className="reg-preg row">
+                <div className="col-md-4">
+                    <div className="form-group">
+                        <label className="label">Índice</label>
+                        <input type="text" className="form-control" placeholder="Índice"/>
+                    </div>
+                </div>
+
+                <div className="col-md-6">
+                    <div className="form-group">
+                        <label className="label">Tipo de pregunta</label>
+                        <select className="form-control">
+                            <option>Seleccionar</option>
+                            <option>Abierta</option>
+                            <option>Cerrada</option>
+                        </select>
+                    </div>
+                </div>
+                <div className="col-md-12">
+                    <div className="form-group">
+                        <label className="label">Pregunta</label>
+                        <textarea className="form-control pregunta"></textarea>
+                    </div>
+                </div>
+                <div className="col-md-8 col-sm-8">
+                    <div className="form-group">
+                        <label className="label">Opción 1</label>
+                        <input type="text" className="form-control" placeholder="Opción de respuesta"/>
+                    </div>
+                </div>
+                <div className="col-md-4 col-sm-4">
+                    <div className="form-group">
+                        <label className="label">Relación</label>
+                        <input type="text" className="form-control" placeholder="Prefijo"/>
+                    </div>
+                </div>
+                <div className="col-md-8 col-sm-8">
+                    <div className="form-group">
+                        <label className="label">Opción 2</label>
+                        <input type="text" className="form-control" placeholder="Opción de respuesta"/>
+                    </div>
+                </div>
+                <div className="col-md-4 col-sm-4">
+                    <div className="form-group">
+                        <label className="label">Relación</label>
+                        <input type="text" className="form-control" placeholder="Prefijo"/>
+                    </div>
+                </div>
+                <div className="col-md-12 text-right">
+                    <h5>
+                        <a href="#">Agregar opción<img src="../../../../images/add.svg"/></a>
+                    </h5>
+                </div>
+            </div>
+        )
+    }
+}
 class Question extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            "reactivo": 0,
-            "tipopregunta": 0,
-            "preguntaJson": [ABIERTA],
-            "nota": ""
+            reactivo: 0,
+            tipopregunta: 0,
+            preguntaJson: [ABIERTA],
+            nota: ""
         }
     }
     renderStatus() {
@@ -81,14 +141,8 @@ class Question extends React.Component {
         }))
     }
     componentWillUnmount() {
-        debugger
-        var state = {
-            "reactivo": 0,
-            "tipopregunta": 0,
-            "preguntaJson": [ABIERTA],
-            "nota": ""
-        }
-        this.setState(state);
+
+        this.setState({reactivo: 0, tipopregunta: 0, preguntaJson: [ABIERTA], nota: ""});
     }
     handleReactivoType(e) {
 
@@ -97,21 +151,25 @@ class Question extends React.Component {
         this.setState({[mask]: valor});
     }
     handleQuestionType(e) {
-
+      
         var valor = parseInt(e.target.value)
         var mask = e.target.name
         var valor;
-        debugger
-        if (valor == 1) {
-            this.setState({preguntaJson: [MULTIPLE], [mask]: valor})
+        switch (valor) {
+            case 0:
+                this.setState({preguntaJson: [ABIERTA], [mask]: valor, render:true});
+                break;
+            case 1:
+                this.setState({preguntaJson: [MULTIPLE], [mask]: valor, render:true});
+                break;
+            case 2:
+                this.setState({preguntaJson: [INDEXADA], [mask]: valor, render:true});
+                break;
+
+            default:
+                break;
         }
-        if (valor == 2) {
-            this.setState({preguntaJson: [INDEXADA], [mask]: valor})
-        }
-         
-        else {
-            this.setState({preguntaJson: [ABIERTA], [mask]: valor})
-        }
+            
 
     }
     handleTextQuestion(e) {
@@ -235,63 +293,12 @@ class Question extends React.Component {
     }
     rednderIndexed() {
         if (this.state.tipopregunta == 2) {
+
             var renderIndexed = (
                 <div>
                     <div className="col-md-12">
-                        <div className="reg-preg row">
-                            <div className="col-md-4">
-                                <div className="form-group">
-                                    <label className="label">Índice</label>
-                                    <input type="text" className="form-control" placeholder="Índice"/>
-                                </div>
-                            </div>
-
-                            <div className="col-md-6">
-                                <div className="form-group">
-                                    <label className="label">Tipo de pregunta</label>
-                                    <select className="form-control">
-                                        <option>Seleccionar</option>
-                                        <option>Abierta</option>
-                                        <option>Cerrada</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="col-md-12">
-                                <div className="form-group">
-                                    <label className="label">Pregunta</label>
-                                    <textarea className="form-control pregunta"></textarea>
-                                </div>
-                            </div>
-                            <div className="col-md-8 col-sm-8">
-                                <div className="form-group">
-                                    <label className="label">Opción 1</label>
-                                    <input type="text" className="form-control" placeholder="Opción de respuesta"/>
-                                </div>
-                            </div>
-                            <div className="col-md-4 col-sm-4">
-                                <div className="form-group">
-                                    <label className="label">Relación</label>
-                                    <input type="text" className="form-control" placeholder="Prefijo"/>
-                                </div>
-                            </div>
-                            <div className="col-md-8 col-sm-8">
-                                <div className="form-group">
-                                    <label className="label">Opción 2</label>
-                                    <input type="text" className="form-control" placeholder="Opción de respuesta"/>
-                                </div>
-                            </div>
-                            <div className="col-md-4 col-sm-4">
-                                <div className="form-group">
-                                    <label className="label">Relación</label>
-                                    <input type="text" className="form-control" placeholder="Prefijo"/>
-                                </div>
-                            </div>
-                            <div className="col-md-12 text-right">
-                                <h5>
-                                    <a href="#">Agregar opción<img src="../../../../images/add.svg"/></a>
-                                </h5>
-                            </div>
-                        </div>
+                        <LinkedQuestion key="A"/>
+                        <LinkedQuestion key="A2"/>
                     </div>
 
                     <div className="col-md-12 text-right">

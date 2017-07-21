@@ -64,13 +64,18 @@ const MULTIPLE = {
             "option": "",
             "condition": '',
             "type": 'checkbox'
+        },
+        {
+            "option": "",
+            "condition": '',
+            "type": 'checkbox'
         }
     ],
     "answer": 'undefined'
 }
 const INDEXADA = {
     "question": '',
-    "questionIndexed":[MULTIPLE],
+    "questions":[MULTIPLE],
     "answer": 'undefined'
 }
 
@@ -119,7 +124,7 @@ var App = React.createClass({
                     <div className="col-md-12 col-sm-12">
                         <ol className="breadcrumb">
                             <li>
-                                <a href="#">Inicio</a>
+                                <a href="/Miembros/MenuPrincipal">Inicio</a>
                             </li>
                             <li >
                                 <a href="#">Administrador de Instrumentos</a>
@@ -133,7 +138,7 @@ var App = React.createClass({
                 break;
             default:
                 renderConteiner = (
-                    <h1>Sin datos</h1>
+                    <h1>URL no existe</h1>
                 );
                 renderNavigator = (
                     <div className="col-md-12 col-sm-12">
@@ -171,3 +176,5 @@ var App = React.createClass({
 
 ReactDOM.render(
     <App/>, document.getElementById('reactIntrumentsApp'));
+
+

@@ -18,6 +18,7 @@
     </header>
   
     <div id="reactIntrumentsApp" ></div>
+    <div id="root"></div>
     <footer>
     	&nbsp;
     </footer>
@@ -93,6 +94,7 @@
     <script type="text/babel" src="../scripts/Q.js"></script>
     <script type="text/babel" src="../scripts/Modulo.js"></script>
     <script type="text/babel" src="../scripts/start.js"></script>
+    <script type="text/babel" src="../scripts/labs.js"></script>
 
 </body>
 </html>
