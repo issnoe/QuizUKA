@@ -1,6 +1,6 @@
 ﻿class PreguntaManager extends React.Component {
     renderOption() {
-
+/// siempre se optiene un arreglo con un solo objecto , si se quiere cambiar solo hay que actualizar la funcion savenext en Modulo y aqui
         if (this.props.castJsonPregunta && this.props.castJsonPregunta[0].options) {
             var lista = this.props.castJsonPregunta[0].options;
             var options = []
@@ -17,7 +17,7 @@
                         options.push(
                             <div
                                 key={index + "_option_" + this.props.item.id}
-                                className="col-md-4 text-center">
+                                className="col-md-4  col-sm-12 text-center">
 
                                 <OverlayTrigger trigger="click" rootClose placement="top" overlay={popoverTop}>
                                     <label className="lbl-id">
@@ -33,7 +33,7 @@
                         options.push(
                             <div
                                 key={index + "_option_" + this.props.item.id}
-                                className="col-md-4 text-center">
+                                className="col-md-4  col-sm-12 text-center">
                                 <label className="lbl-id">
                                     <strong>{parseInt(index) + 1})</strong>
 
@@ -110,7 +110,6 @@ class PanelPreguntas extends React.Component {
     }
     renderReactivos() {
         var modulo = this.props.modulo;
-
         if (modulo == undefined) {
             return (
                 <div className="spinner"></div>
@@ -118,9 +117,7 @@ class PanelPreguntas extends React.Component {
         }
         if (modulo && modulo.reactivos && modulo.reactivos.length > 0) {
             var lista = modulo.reactivos
-
             var listaRender = []
-
             for (var key in lista) {
                 var listaDelete = this.state.listDetele;
                 var preguntaJson = lista[key].dataJson
@@ -172,7 +169,7 @@ class PanelPreguntas extends React.Component {
                     {/* <div className="col-md-6">
                         <input type="checkbox" onChange={this.handleChecks.bind(this)} className="check-preg"/>Seleccionar todas
                     </div> */}
-                    <div className="col-md-12 text-right">
+                    <div className="col-md-12 col-sm-12 text-right">
                         <a
                             onClick={() => {
                             this

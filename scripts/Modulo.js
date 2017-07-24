@@ -56,7 +56,7 @@ class Modulo extends React.Component {
     }
     saveNext(question) {
         this.setState({spinerLoad: true})
-        var obj = question.preguntaJson
+        var obj = [question.preguntaJson]
         var data = JSON.stringify(obj)
         var item = {}
         item.id = -1;
@@ -105,7 +105,7 @@ class Modulo extends React.Component {
                 
                 <div className="container">
 
-                    <div className="col-md-5 pregunta-div">
+                    <div className="col-md-5  col-sm-12 pregunta-div">
                             <Question
                             prefijoPregunta={this.state.modulo.prefijo + "." + (this.state.modulo.reactivos.length + 1)}
                             saveClose={this
@@ -115,7 +115,7 @@ class Modulo extends React.Component {
                             .saveNext
                             .bind(this)}/> 
                     </div>
-                    <div className="col-md-7 col-sm-5">
+                    <div className="col-md-7 col-sm-12">
                         <PanelPreguntas
                             modulo={this.state.modulo}
                             deleteSelected={this

@@ -30,7 +30,7 @@ const TIPOPREGUNTAS = [
         id: 2,
         data: "Indexada"
     }
-    
+
 ];
 const STATUS = [
     {
@@ -56,31 +56,25 @@ const PERSONAS = [
         data: "Hogares"
     }
 ];
-const ABIERTA = {
+const _ABIERTA = {
     "question": '',
     "answer": 'undefined'
-} // init
+}
 
-///radio //checkbox // text //
-const MULTIPLE = {
+const _MULTIPLES = {
     "question": '',
     "options": [
         {
             "option": "",
-            "condition": '',
-            "type": 'checkbox'
-        },
-        {
-            "option": "",
-            "condition": '',
+            "condition": '',    
             "type": 'checkbox'
         }
     ],
     "answer": 'undefined'
 }
-const INDEXADA = {
+const _INDEXADA = {
     "question": '',
-    "questions":[MULTIPLE],
+    "questions": [_MULTIPLES],
     "answer": 'undefined'
 }
 
@@ -88,7 +82,7 @@ moment.locale('es');
 
 var App = React.createClass({
     getInitialState: function () {
-        return {routerPath: "home", idModulo:undefined};
+        return {routerPath: "home", idModulo: undefined};
     },
     hangleModulo: function (id) {
         var idM = parseInt(id)
@@ -96,7 +90,7 @@ var App = React.createClass({
     },
     hangleHome: function () {
         this.setState({routerPath: "home", idModulo: undefined})
-        },
+    },
     componentDidMount: function () {
         var router = Router({'/': this.hangleHome, '/modulo': this.listBooks, '/modulo/:id': this.hangleModulo});
         router.init('/');
@@ -104,12 +98,12 @@ var App = React.createClass({
     render: function () {
 
         var renderConteiner;
-         var renderNavigator;
-     
+        var renderNavigator;
+
         switch (this.state.routerPath) {
             case "home":
                 renderConteiner = (<Instrumentos/>);
-                 renderNavigator = (
+                renderNavigator = (
                     <div className="col-md-12 col-sm-12">
                         <ol className="breadcrumb">
                             <li>
@@ -160,10 +154,6 @@ var App = React.createClass({
                 break;
         }
 
-       
-
-       
-
         return (
             <div>
                 <div className="container">
@@ -175,7 +165,7 @@ var App = React.createClass({
                 < div className="bg-full padding-top-10">
                     {renderConteiner}
                 </div>
-             
+
             </div>
         )
 
@@ -184,5 +174,3 @@ var App = React.createClass({
 
 ReactDOM.render(
     <App/>, document.getElementById('reactIntrumentsApp'));
-
-

@@ -91,6 +91,9 @@
      <script type="text/babel" src="../scripts/PanelPreguntas.js"></script>
     <script type="text/babel" src="../scripts/Pregunta.js"></script>
     <script type="text/babel" src="../scripts/Reactivos.js"></script>
+    <script type="text/babel" src="../scripts/Answer.js"></script>
+    <script type="text/babel" src="../scripts/LinkedQuestion.js"></script>
+    <script type="text/babel" src="../scripts/Q.js"></script>
     <script type="text/babel" src="../scripts/Q.js"></script>
     <script type="text/babel" src="../scripts/Modulo.js"></script>
     <script type="text/babel" src="../scripts/start.js"></script>

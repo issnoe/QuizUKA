@@ -1,114 +1,14 @@
-class Anwer extends React.Component {
-    componentWillUnmount() {
-
-        this.setState({});
-    }
-    render() {
-        return (
-            <div >
-
-                <div className="col-md-8 col-sm-8">
-
-                    <div className="form-group">
-                        <span className="icon-trash" onClick={this.props.onDelete}></span>
-                        <label className="label">Opción {parseInt(this.props.index) + 1}</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            name="option"
-                            onChange={this.props.onEdit}
-                            value={this.props.option}
-                            placeholder="Opción de respuesta"/>
-                    </div>
-                </div>
-                <div className="col-md-4 col-sm-4">
-                    <div className="form-group">
-                        <label className="label">Relación</label>
-                        <input
-                            type="text"
-                            name="condition"
-                            onChange={this.props.onEdit}
-                            value={this.props.condition}
-                            className="form-control"
-                            placeholder="Prefijo"/>
-                    </div>
-                </div>
-            </div>
-
-        )
-    }
-}
-class LinkedQuestion extends React.Component {
-    render() {
-
-        return (
-            <div className="reg-preg row">
-                <div className="col-md-4">
-                    <div className="form-group">
-                        <label className="label">Índice</label>
-                        <input type="text" className="form-control" placeholder="Índice"/>
-                    </div>
-                </div>
-
-                <div className="col-md-6">
-                    <div className="form-group">
-                        <label className="label">Tipo de pregunta</label>
-                        <select className="form-control">
-                            <option>Seleccionar</option>
-                            <option>Abierta</option>
-                            <option>Cerrada</option>
-                        </select>
-                    </div>
-                </div>
-                <div className="col-md-12">
-                    <div className="form-group">
-                        <label className="label">Pregunta</label>
-                        <textarea className="form-control pregunta"></textarea>
-                    </div>
-                </div>
-                <div className="col-md-8 col-sm-8">
-                    <div className="form-group">
-                        <label className="label">Opción 1</label>
-                        <input type="text" className="form-control" placeholder="Opción de respuesta"/>
-                    </div>
-                </div>
-                <div className="col-md-4 col-sm-4">
-                    <div className="form-group">
-                        <label className="label">Relación</label>
-                        <input type="text" className="form-control" placeholder="Prefijo"/>
-                    </div>
-                </div>
-                <div className="col-md-8 col-sm-8">
-                    <div className="form-group">
-                        <label className="label">Opción 2</label>
-                        <input type="text" className="form-control" placeholder="Opción de respuesta"/>
-                    </div>
-                </div>
-                <div className="col-md-4 col-sm-4">
-                    <div className="form-group">
-                        <label className="label">Relación</label>
-                        <input type="text" className="form-control" placeholder="Prefijo"/>
-                    </div>
-                </div>
-                <div className="col-md-12 text-right">
-                    <h5>
-                        <a href="#">Agregar opción<img src="../../../../images/add.svg"/></a>
-                    </h5>
-                </div>
-            </div>
-        )
-    }
-}
 class Question extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             reactivo: 0,
             tipopregunta: 0,
-            preguntaJson: [ABIERTA],
+            preguntaJson: _ABIERTA,
             nota: ""
         }
     }
+
     renderStatus() {
         return (STATUS.map(function (i) {
             return (
@@ -137,9 +37,10 @@ class Question extends React.Component {
             );
         }))
     }
+
     componentWillUnmount() {
 
-        this.setState({reactivo: 0, tipopregunta: 0, preguntaJson: [ABIERTA], nota: ""});
+        this.setState({reactivo: 0, tipopregunta: 0, preguntaJson: _ABIERTA, nota: ""});
     }
     handleReactivoType(e) {
 
@@ -148,19 +49,43 @@ class Question extends React.Component {
         this.setState({[mask]: valor});
     }
     handleQuestionType(e) {
-
         var valor = parseInt(e.target.value)
         var mask = e.target.name
         var valor;
         switch (valor) {
             case 0:
-                this.setState({preguntaJson: [ABIERTA], [mask]: valor, render: true});
+                var jsonQ = {
+                    "question": '',
+                    "answer": 'undefined'
+                };
+                this.setState({preguntaJson: jsonQ, tipopregunta: valor});
                 break;
             case 1:
-                this.setState({preguntaJson: [MULTIPLE], [mask]: valor, render: true});
+                var jsonQ = {
+                    "question": '',
+                    "options": [
+                        {
+                            "option": "",
+                            "condition": '',
+                            "type": 'checkbox'
+                        }, {
+                            "option": "",
+                            "condition": '',
+                            "type": 'checkbox'
+                        }
+                    ],
+                    "answer": 'undefined'
+                }
+
+                this.setState({preguntaJson: jsonQ, tipopregunta: valor});
                 break;
             case 2:
-                this.setState({preguntaJson: [INDEXADA], [mask]: valor, render: true});
+                var jsonQ = {
+                    "question": '',
+                    "questions": [_MULTIPLES],
+                    "answer": 'undefined'
+                }
+                this.setState({preguntaJson: jsonQ, tipopregunta: valor});
                 break;
 
             default:
@@ -169,16 +94,14 @@ class Question extends React.Component {
 
     }
     handleTextQuestion(e) {
-        e.preventDefault();
         var valor = e.target.value
         var mask = e.target.name
         var question = this.state.preguntaJson
-        question[0].question = valor;
+        question.question = valor;
         this.setState({[mask]: question});
 
     }
     handleText(e) {
-        e.preventDefault();
         var valor = e.target.value
         var mask = e.target.name
 
@@ -196,42 +119,45 @@ class Question extends React.Component {
             .saveNext(this.state)
     }
     onEdit(i, e) {
-        e.preventDefault()
-        debugger;
         var index = parseInt(i)
         var valor = e.target.value
         var mask = e.target.name
-
-        debugger;
         var question = this.state.preguntaJson;
-        var listaOpciones = question[0].options;
-        question[0].options[index][mask] = valor;
+        var listaOpciones = question.options;
+        question.options[index][mask] = valor;
         this.setState({preguntaJson: question})
 
     }
     onDelete(i, e) {
         e.preventDefault()
-        debugger;
         var index = parseInt(i)
-
-        debugger;
         var question = this.state.preguntaJson;
-        var listaOpciones = question[0].options;
+        var listaOpciones = question.options;
         listaOpciones.splice(index, 1)
-        question[0].options = listaOpciones;
+        question.options = listaOpciones;
+        this.setState({preguntaJson: question})
+
+    }
+    onDeleteIndexed(i, e) {
+        e.preventDefault()
+        var index = parseInt(i)
+        var question = this.state.preguntaJson;
+        var listaOpciones = question.questions;
+        listaOpciones.splice(index, 1)
+        question.questions = listaOpciones;
         this.setState({preguntaJson: question})
 
     }
     //##move to other
     renderOption() {
 
-        if (this.state.preguntaJson && this.state.preguntaJson[0].options) {
-            var lista = this.state.preguntaJson[0].options;
+        if (this.state.preguntaJson && this.state.preguntaJson.options) {
+            var lista = this.state.preguntaJson.options;
             var options = []
             for (var index in lista) {
                 var item = lista[index].option;
                 try {
-                    options.push(<Anwer
+                    options.push(<Answer
                         key={index + "option"}
                         {...lista[index]}
                         index={index}
@@ -253,17 +179,16 @@ class Question extends React.Component {
     //Move other
     addOption(e) {
         e.preventDefault();
-        debugger;
         var question = this.state.preguntaJson;
-        var listaOpciones = question[0].options;
+        var listaOpciones = question.options;
         var item = {
             "option": "",
             "condition": '',
             "type": 'checkbox'
         }
         listaOpciones.push(item);
-        question[0].options = listaOpciones;
-        this.setState({preguntaJson: question})
+        question.options = listaOpciones;
+        this.setState({preguntaJson: question, render: false})
 
     }
     //## Move other
@@ -287,40 +212,73 @@ class Question extends React.Component {
 
         }
     }
-    renderList() {
-        // var listChildrens = []
-        // if (this.state.list && this.state.index != "main") {
-        //     this
-        //         .state
-        //         .list
-        //         .map((index, i) => {
-        //             listChildrens.push(<Component
-        //                 key={i}
-        //                 name={index.name}
-        //                 list={index.list}
-        //                 index={i}
-        //                 handleChildren={this.handleChildren}/>)
-        //         })
-        // }
+    handleQuestionTypeIndexed(i, e) {
+        e.preventDefault();
+        var valor = parseInt(e.target.value)
+        var mask = e.target.name
+        var valor;
+        debugger;
+        switch (valor) {
+            case 0:
+                var jsonQ = _ABIERTA
+              //  this.setState({preguntaJson: jsonQ, tipopregunta: valor});
+                break;
+            case 1:
+                var jsonQ = _MULTIPLES
 
-        // return listChildrens;
+             //   this.setState({preguntaJson: jsonQ, tipopregunta: valor});
+                break;
+            case 2:
+                var jsonQ = _INDEXADA
+               // this.setState({preguntaJson: jsonQ, tipopregunta: valor});
+                break;
+
+            default:
+                break;
+        }
+        
+        var index = parseInt(i)
+        var question = this.state.preguntaJson;
+         question.questions[index] = jsonQ;
+        this.setState({preguntaJson: question})
 
     }
+    addQuestionIndexed = () => {
+        var list = this.state.preguntaJson.questions;
+        list.push(_MULTIPLES);
+        var stateJson = this.state.preguntaJson;
+        stateJson.questions = list;
+        this.setState({preguntaJson: stateJson})
+    }
     renderIndexed() {
-        if (this.state.tipopregunta == 2) {
-            debugger;
+        if (this.state.tipopregunta == 2 && this.state.preguntaJson.questions) {
+            var listChildrens = [];
             this
+                .state
+                .preguntaJson
+                .questions
+                .map((index, i) => {
+                    listChildrens.push(<LinkedQuestion
+                        key={i}
+                        {...index}
+                        onDelete={this
+                        .onDeleteIndexed
+                        .bind(this, i)}
+                        handleQuestionType={this
+                        .handleQuestionTypeIndexed
+                        .bind(this, i)}/>)
+                })
 
             var renderIndexed = (
                 <div>
                     <div className="col-md-12">
-                        <LinkedQuestion key="A"/>
-                        <LinkedQuestion key="A2"/>
+                        {listChildrens}
                     </div>
 
                     <div className="col-md-12 text-right">
                         <h5>
-                            <a >Agregar opción<img src="../../../../images/add.svg"/></a>
+
+                            <a onClick={this.addQuestionIndexed}>Agregar opción<img src="../../../../images/add.svg"/></a>
                         </h5>
                     </div>
                 </div>
@@ -329,6 +287,7 @@ class Question extends React.Component {
         }
     }
     render() {
+
         return (
             <div>
                 <div className="row">
