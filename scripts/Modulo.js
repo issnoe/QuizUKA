@@ -28,7 +28,7 @@ class Modulo extends React.Component {
                 }
             }.bind(this))
             .catch(function (error) {
-                alert("No se pudo eliminar el  reactivo")
+                alert("No se pudo obtener datos")
             });
 
     }

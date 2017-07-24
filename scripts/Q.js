@@ -6,14 +6,11 @@ class Anwer extends React.Component {
     render() {
         return (
             <div >
-                <div className="col-md-2 col-sm-2">
-                    <div className="form-group">
-                        <label className="label">Eliminar</label>
-                        <button onClick={this.props.onDelete}>Eliminar</button>
-                    </div>
-                </div>
+
                 <div className="col-md-8 col-sm-8">
+
                     <div className="form-group">
+                        <span className="icon-trash" onClick={this.props.onDelete}></span>
                         <label className="label">Opción {parseInt(this.props.index) + 1}</label>
                         <input
                             type="text"
@@ -24,7 +21,7 @@ class Anwer extends React.Component {
                             placeholder="Opción de respuesta"/>
                     </div>
                 </div>
-                <div className="col-md-2 col-sm-2">
+                <div className="col-md-4 col-sm-4">
                     <div className="form-group">
                         <label className="label">Relación</label>
                         <input
@@ -151,25 +148,24 @@ class Question extends React.Component {
         this.setState({[mask]: valor});
     }
     handleQuestionType(e) {
-      
+
         var valor = parseInt(e.target.value)
         var mask = e.target.name
         var valor;
         switch (valor) {
             case 0:
-                this.setState({preguntaJson: [ABIERTA], [mask]: valor, render:true});
+                this.setState({preguntaJson: [ABIERTA], [mask]: valor, render: true});
                 break;
             case 1:
-                this.setState({preguntaJson: [MULTIPLE], [mask]: valor, render:true});
+                this.setState({preguntaJson: [MULTIPLE], [mask]: valor, render: true});
                 break;
             case 2:
-                this.setState({preguntaJson: [INDEXADA], [mask]: valor, render:true});
+                this.setState({preguntaJson: [INDEXADA], [mask]: valor, render: true});
                 break;
 
             default:
                 break;
         }
-            
 
     }
     handleTextQuestion(e) {
@@ -291,8 +287,29 @@ class Question extends React.Component {
 
         }
     }
-    rednderIndexed() {
+    renderList() {
+        // var listChildrens = []
+        // if (this.state.list && this.state.index != "main") {
+        //     this
+        //         .state
+        //         .list
+        //         .map((index, i) => {
+        //             listChildrens.push(<Component
+        //                 key={i}
+        //                 name={index.name}
+        //                 list={index.list}
+        //                 index={i}
+        //                 handleChildren={this.handleChildren}/>)
+        //         })
+        // }
+
+        // return listChildrens;
+
+    }
+    renderIndexed() {
         if (this.state.tipopregunta == 2) {
+            debugger;
+            this
 
             var renderIndexed = (
                 <div>
@@ -361,7 +378,7 @@ class Question extends React.Component {
                     </div>
 
                     {this.renderOptions()}
-                    {this.rednderIndexed()}
+                    {this.renderIndexed()}
                     <div className="col-md-12">
                         <div className="form-group">
                             <label className="label">Nota(s):</label>

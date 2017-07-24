@@ -1,4 +1,9 @@
 var Modal = ReactBootstrap.Modal;
+
+const OverlayTrigger = ReactBootstrap.OverlayTrigger;
+const Popover = ReactBootstrap.Popover;
+const Button = ReactBootstrap.Button;
+
 var DropdownButton = ReactBootstrap.DropdownButton;
 var MenuItem = ReactBootstrap.MenuItem;
 var Tab = ReactBootstrap.Tab;
@@ -130,7 +135,7 @@ var App = React.createClass({
                                 <a href="#">Administrador de Instrumentos</a>
                             </li>
                             <li >
-                                Modulo
+                                Módulo
                             </li>
                         </ol>
                     </div>
@@ -157,6 +162,8 @@ var App = React.createClass({
 
        
 
+       
+
         return (
             <div>
                 <div className="container">
@@ -168,6 +175,7 @@ var App = React.createClass({
                 < div className="bg-full padding-top-10">
                     {renderConteiner}
                 </div>
+             
             </div>
         )
 

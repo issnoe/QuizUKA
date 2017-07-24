@@ -5,15 +5,46 @@
             var lista = this.props.castJsonPregunta[0].options;
             var options = []
             for (var index in lista) {
-                var item = lista[index].option;
+                var option = lista[index].option;
+                var condition = lista[index].condition;
                 try {
-                    options.push(
-                        <div
-                            key={index + "_option_" + this.props.item.id}
-                            className="col-md-4 text-center">
-                            <strong>{parseInt(index) +1})</strong>
-                            {item}</div>
-                    )
+                    if (condition) {
+                        var popoverTop = (
+                            <Popover id="popover-positioned-top" title={condition}>
+                                Agregar funcion de busqueda ###
+                            </Popover>
+                        );
+                        options.push(
+                            <div
+                                key={index + "_option_" + this.props.item.id}
+                                className="col-md-4 text-center">
+
+                                <OverlayTrigger trigger="click" rootClose placement="top" overlay={popoverTop}>
+                                    <label className="lbl-id">
+
+                                        <div className="id-preg relacionada"></div>
+                                        <strong>{parseInt(index) + 1})</strong>
+                                        {option}
+                                    </label>
+                                </OverlayTrigger>
+                            </div>
+                        )
+                    } else {
+                        options.push(
+                            <div
+                                key={index + "_option_" + this.props.item.id}
+                                className="col-md-4 text-center">
+                                <label className="lbl-id">
+                                    <strong>{parseInt(index) + 1})</strong>
+
+                                    {option}
+                                </label>
+
+                            </div>
+                        )
+
+                    }
+
                 } catch (error) {
                     alert("existe una opcion que se repite en un reactivo")
                 }
@@ -134,6 +165,7 @@ class PanelPreguntas extends React.Component {
     }
 
     render() {
+
         return (
             <div >
                 <div className="row">
@@ -153,6 +185,18 @@ class PanelPreguntas extends React.Component {
                 <div className="cont-reg-preg">
                     {this.renderReactivos()}
                 </div>
+
+                {/* <label
+                    className="lbl-id"
+                    data-toggle="tooltip"
+                    title="Prefijos relacionados: R2D0, R2D1, R2D2, R2D3.">
+                    <div className="id-preg abierta"></div>
+                    Abierta</label>
+                <label className="lbl-id">
+                    <div className="id-preg multiple"></div>
+                    Opción multiple</label> */}
+                <label className="lbl-id">
+                    <div className="id-preg relacionada"></div>Respueta relacionada</label>
 
             </div>
         )
