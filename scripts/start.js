@@ -28,7 +28,7 @@ const TIPOPREGUNTAS = [
         data: "Multiple"
     }, {
         id: 2,
-        data: "Indexada"
+        data: "Anidada"
     }
 
 ];

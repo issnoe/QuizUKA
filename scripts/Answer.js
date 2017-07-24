@@ -1,8 +1,5 @@
 class Answer extends React.Component {
-    componentWillUnmount() {
-
-        this.setState({});
-    }
+    
     render() {
         return (
             <div >

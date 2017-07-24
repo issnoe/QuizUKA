@@ -114,6 +114,7 @@ class Question extends React.Component {
     }
     saveNext(e) {
         e.preventDefault();
+        debugger
         this
             .props
             .saveNext(this.state)
@@ -212,44 +213,24 @@ class Question extends React.Component {
 
         }
     }
-    handleQuestionTypeIndexed(i, e) {
-        e.preventDefault();
-        var valor = parseInt(e.target.value)
-        var mask = e.target.name
-        var valor;
-        debugger;
-        switch (valor) {
-            case 0:
-                var jsonQ = _ABIERTA
-              //  this.setState({preguntaJson: jsonQ, tipopregunta: valor});
-                break;
-            case 1:
-                var jsonQ = _MULTIPLES
-
-             //   this.setState({preguntaJson: jsonQ, tipopregunta: valor});
-                break;
-            case 2:
-                var jsonQ = _INDEXADA
-               // this.setState({preguntaJson: jsonQ, tipopregunta: valor});
-                break;
-
-            default:
-                break;
-        }
-        
-        var index = parseInt(i)
-        var question = this.state.preguntaJson;
-         question.questions[index] = jsonQ;
-        this.setState({preguntaJson: question})
-
-    }
-    addQuestionIndexed = () => {
+  
+    addQuestionIndexed (e){
+        e.preventDefault()
+        debugger
         var list = this.state.preguntaJson.questions;
         list.push(_MULTIPLES);
         var stateJson = this.state.preguntaJson;
         stateJson.questions = list;
         this.setState({preguntaJson: stateJson})
     }
+    handleLinkQueston(index,question){
+        debugger;
+        var preguntaJson = this.state.preguntaJson
+        preguntaJson.questions[index] =  question
+        this.setState({preguntaJson});
+        
+    }
+    
     renderIndexed() {
         if (this.state.tipopregunta == 2 && this.state.preguntaJson.questions) {
             var listChildrens = [];
@@ -260,13 +241,11 @@ class Question extends React.Component {
                 .map((index, i) => {
                     listChildrens.push(<LinkedQuestion
                         key={i}
-                        {...index}
-                        onDelete={this
-                        .onDeleteIndexed
-                        .bind(this, i)}
-                        handleQuestionType={this
-                        .handleQuestionTypeIndexed
-                        .bind(this, i)}/>)
+                        index={i}
+                        question={index}
+                        onDelete={this.onDeleteIndexed.bind(this, i)}
+                        handleLinkQueston={this.handleLinkQueston.bind(this,i)}
+                        />)
                 })
 
             var renderIndexed = (
@@ -278,7 +257,7 @@ class Question extends React.Component {
                     <div className="col-md-12 text-right">
                         <h5>
 
-                            <a onClick={this.addQuestionIndexed}>Agregar opción<img src="../../../../images/add.svg"/></a>
+                            <a onClick={this.addQuestionIndexed.bind(this)}>Nueva pregunta<img src="../../../../images/add.svg"/></a>
                         </h5>
                     </div>
                 </div>
