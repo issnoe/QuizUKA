@@ -203,12 +203,12 @@ class Instrumento extends  React.Component {
                                             Activar</a>
                                     </li>
                                     <li>
-                                        <a href={"#/instrumento/"+this.props.item.id}><img src="../../../images/enable.svg" alt="Visualizar instrumento" height="18"/>
-                                            Visualizar</a>
+                                        <a href={"#/instrumento/"+this.props.item.id}><img src="../../../images/add.svg" alt="Agregar pregunta" height="18"/>
+                                            Agregar pregunta</a>
                                     </li>
                                     <li>
                                         <a href={"#/simulacion/"+this.props.item.id}><img src="../../../images/enable.svg" alt="Visualizar instrumento" height="18"/>
-                                            Simulación</a>
+                                            Visualizar</a>
                                     </li>
                                     <li>
 
