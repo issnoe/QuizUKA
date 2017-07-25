@@ -262,6 +262,7 @@ class Instrumento extends  React.Component {
                                     </div>
                                 </div>
                                 {this.renderModulos()}
+                              
                                 {/*{listItems}*/}
                             </div>
 

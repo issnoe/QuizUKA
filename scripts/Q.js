@@ -5,7 +5,8 @@ class Question extends React.Component {
             reactivo: 0,
             tipopregunta: 0,
             preguntaJson: _ABIERTA,
-            nota: ""
+            nota: "",
+            checkUnique: true
         }
     }
 
@@ -67,11 +68,7 @@ class Question extends React.Component {
                         {
                             "option": "",
                             "condition": '',
-                            "type": 'checkbox'
-                        }, {
-                            "option": "",
-                            "condition": '',
-                            "type": 'checkbox'
+                            "type": 'radio'
                         }
                     ],
                     "answer": 'undefined'
@@ -82,7 +79,19 @@ class Question extends React.Component {
             case 2:
                 var jsonQ = {
                     "question": '',
-                    "questions": [_MULTIPLES],
+                    "questions": [
+                        {
+                            "question": '',
+                            "options": [
+                                {
+                                    "option": "",
+                                    "condition": '',
+                                    "type": 'radio'
+                                }
+                            ],
+                            "answer": 'undefined'
+                        }
+                    ],
                     "answer": 'undefined'
                 }
                 this.setState({preguntaJson: jsonQ, tipopregunta: valor});
@@ -114,7 +123,6 @@ class Question extends React.Component {
     }
     saveNext(e) {
         e.preventDefault();
-        debugger
         this
             .props
             .saveNext(this.state)
@@ -185,11 +193,26 @@ class Question extends React.Component {
         var item = {
             "option": "",
             "condition": '',
-            "type": 'checkbox'
+            "type": 'radio'
         }
         listaOpciones.push(item);
         question.options = listaOpciones;
         this.setState({preguntaJson: question, render: false})
+
+    }
+    handleChecUnique(e) {
+        var ischecked = e.target.checked
+        //Handle option types
+        var typeHandle=(ischecked)?"radio":"checkbox";
+            var question = this.state.preguntaJson;
+            var opciones = question.options;
+            opciones.map((i, index) => {
+                opciones[index].type = typeHandle
+            })
+            question.options = opciones;
+            this.setState({preguntaJson: question, render: false})
+        debugger
+        this.setState({checkUnique: ischecked})
 
     }
     //## Move other
@@ -199,7 +222,21 @@ class Question extends React.Component {
             return (
                 <div>
                     {this.renderOption()}
-                    <div className="col-md-12 text-right">
+                    <div className="col-md-6">
+                        {(this.state.preguntaJson && this.state.preguntaJson && this.state.preguntaJson.options && this.state.preguntaJson.options.length > 1)
+                            ? (
+                                <span><input
+                                    type="checkbox"
+                                    checked={this.state.checkUnique}
+                                    onClick={this
+                                    .handleChecUnique
+                                    .bind(this)}
+                                    className="check-preg"/>Selección única</span>
+                            )
+                            : ""}
+
+                    </div>
+                    <div className="col-md-6 text-right">
                         <h5>
                             <a
                                 onClick={this
@@ -213,40 +250,65 @@ class Question extends React.Component {
 
         }
     }
-  
-    addQuestionIndexed (e){
+
+    addQuestionIndexed(e) {
         e.preventDefault()
-        debugger
         var list = this.state.preguntaJson.questions;
-        list.push(_MULTIPLES);
+        var jsonQ = {
+            "question": '',
+            "questions": [
+                {
+                    "question": '',
+                    "options": [
+                        {
+                            "option": "",
+                            "condition": '',
+                            "type": 'radio'
+                        }
+                    ],
+                    "answer": 'undefined'
+                }
+            ],
+            "answer": 'undefined'
+        }
+        list.push(jsonQ);
         var stateJson = this.state.preguntaJson;
         stateJson.questions = list;
         this.setState({preguntaJson: stateJson})
     }
-    handleLinkQueston(index,question){
-        debugger;
+    handleLinkQueston(index, question) {
         var preguntaJson = this.state.preguntaJson
-        preguntaJson.questions[index] =  question
+        preguntaJson.questions[index] = question
         this.setState({preguntaJson});
-        
+
     }
-    
+
     renderIndexed() {
+
         if (this.state.tipopregunta == 2 && this.state.preguntaJson.questions) {
             var listChildrens = [];
-            this
-                .state
-                .preguntaJson
-                .questions
-                .map((index, i) => {
-                    listChildrens.push(<LinkedQuestion
-                        key={i}
-                        index={i}
-                        question={index}
-                        onDelete={this.onDeleteIndexed.bind(this, i)}
-                        handleLinkQueston={this.handleLinkQueston.bind(this,i)}
-                        />)
-                })
+            try {
+                this
+                    .state
+                    .preguntaJson
+                    .questions
+                    .map((index, i) => {
+                        listChildrens.push(<LinkedQuestion
+                            key={i}
+                            index={i}
+                            question={index}
+                            onDelete={this
+                            .onDeleteIndexed
+                            .bind(this, i)}
+                            handleLinkQueston={this
+                            .handleLinkQueston
+                            .bind(this, i)}/>)
+                    })
+
+            } catch (error) {
+                debugger;
+                alert("Code:qr502")
+            }
 
             var renderIndexed = (
                 <div>
@@ -257,7 +319,10 @@ class Question extends React.Component {
                     <div className="col-md-12 text-right">
                         <h5>
 
-                            <a onClick={this.addQuestionIndexed.bind(this)}>Nueva pregunta<img src="../../../../images/add.svg"/></a>
+                            <a
+                                onClick={this
+                                .addQuestionIndexed
+                                .bind(this)}>Nueva pregunta<img src="../../../../images/add.svg"/></a>
                         </h5>
                     </div>
                 </div>

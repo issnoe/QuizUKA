@@ -1,7 +1,108 @@
-﻿class PreguntaManager extends React.Component {
+﻿class LinkedQuestionManager extends React.Component {
     renderOption() {
-/// siempre se optiene un arreglo con un solo objecto , si se quiere cambiar solo hay que actualizar la funcion savenext en Modulo y aqui
+        // / siempre se optiene un arreglo con un solo objecto , si se quiere cambiar
+        // solo hay que actualizar la funcion savenext en Modulo y aqui
+        if (this.props.question && this.props.question.options) {
+
+            var lista = this.props.question.options
+            var options = []
+            for (var index in lista) {
+                debugger;
+                var option = lista[index].option;
+                var condition = lista[index].condition;
+                try {
+                    if (condition) {
+                        var popoverTop = (
+                            <Popover id="popover-positioned-top" title={condition}>
+                                Agregar funcion de busqueda ###
+                            </Popover>
+                        );
+                        options.push(
+                            <div
+                                key={index + "_option_" + this.props.item.id}
+                                className="col-md-4  col-sm-12 text-center">
+
+                                <OverlayTrigger trigger="click" rootClose placement="top" overlay={popoverTop}>
+                                    <label className="lbl-id">
+
+                                        <div className="id-preg relacionada"></div>
+                                        <strong>{parseInt(index) + 1})</strong>
+                                        {option}
+                                    </label>
+                                </OverlayTrigger>
+                            </div>
+                        )
+                    } else {
+                        options.push(
+                            <div
+                                key={index + "_option_linkedq" + this.props.item.id}
+                                className="col-md-4  col-sm-12 text-center">
+                                <label className="lbl-id">
+                                    <strong>{parseInt(index) + 1})</strong>
+
+                                    {option}
+                                </label>
+
+                            </div>
+                        )
+
+                    }
+
+                } catch (error) {
+                    alert("existe una opcion que se repite en un reactivo")
+                }
+
+            }
+            return (
+                <div className="row resp-reg">
+                    {options}
+                </div>
+            );
+        }
+
+    }
+
+    render() {
+        return (
+            <div className="reg-preg preg-rel">
+                {this.props.question.question}<br/>
+                <small >{this.props.question.nota}</small>
+                {this.renderOption()}
+
+            </div>
+        )
+    }
+
+}
+class QuestionManager extends React.Component {
+    renderLinkedQuestions() {
+        debugger;
+        this;
+        if (this.props.castJsonPregunta && this.props.castJsonPregunta[0].questions) {
+
+            var lista = this.props.castJsonPregunta[0].questions;
+            var questions = []
+            for (var index in lista) {
+                questions.push(<LinkedQuestionManager
+                    key={index + "linked_qeustion_" + this.props.item.id}
+                    item={this.props.item}
+                    question={lista[index]}/>)
+
+            }
+            return (
+                <div className="row resp-reg">
+                    {questions}
+                </div>
+            );
+        }
+
+    }
+    renderOption() {
+        // / siempre se optiene un arreglo con un solo objecto , si se quiere cambiar
+        // solo hay que actualizar la funcion savenext en Modulo y aqui
+
         if (this.props.castJsonPregunta && this.props.castJsonPregunta[0].options) {
+
             var lista = this.props.castJsonPregunta[0].options;
             var options = []
             for (var index in lista) {
@@ -73,6 +174,7 @@
                 {this.props.castJsonPregunta[0].question}<br/>
                 <small >{this.props.item.nota}</small>
                 {this.renderOption()}
+                {this.renderLinkedQuestions()}
             </div>
         )
     }
@@ -130,13 +232,17 @@ class PanelPreguntas extends React.Component {
                         var preguntaJsonTrimS = preguntaJsonTrim.split("\n");
                         var preguntaDef = preguntaJsonTrimS;
                         var castJsonPregunta = JSON.parse(preguntaDef);
-                        var pregunta = (<PreguntaManager
-                            key={lista[key].id}
-                            item={lista[key]}
-                            checked={checkedItem}
-                            prefijo={prefijopregunta}
-                            onDelete={this.onDelete}
-                            castJsonPregunta={castJsonPregunta}/>)
+                        var pregunta = (
+                            <QuestionManager
+                                key={lista[key].id}
+                                item={lista[key]}
+                                checked={checkedItem}
+                                prefijo={prefijopregunta}
+                                onDelete={this.onDelete}
+                                castJsonPregunta={castJsonPregunta}>
+                                <h1>hola mundo!!</h1>
+                            </QuestionManager>
+                        )
                         listaRender.push(pregunta);
                     } catch (ex) {
                         console.log(ex)
@@ -183,18 +289,14 @@ class PanelPreguntas extends React.Component {
                     {this.renderReactivos()}
                 </div>
 
-                {/* <label
-                    className="lbl-id"
-                    data-toggle="tooltip"
-                    title="Prefijos relacionados: R2D0, R2D1, R2D2, R2D3.">
-                    <div className="id-preg abierta"></div>
-                    Abierta</label>
-                <label className="lbl-id">
-                    <div className="id-preg multiple"></div>
-                    Opción multiple</label> */}
                 <label className="lbl-id">
                     <div className="id-preg relacionada"></div>Respueta relacionada</label>
-
+                <label className="lbl-id">
+                    <div className="id-preg "></div>@TEXTO</label>
+                    <label className="lbl-id">
+                    <div className="id-preg "></div>@FECHA</label>
+                    <label className="lbl-id">
+                    <div className="id-preg "></div>@HORA</label>
             </div>
         )
     }

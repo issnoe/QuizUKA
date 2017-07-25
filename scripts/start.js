@@ -67,7 +67,7 @@ const _MULTIPLES = {
         {
             "option": "",
             "condition": '',    
-            "type": 'checkbox'
+            "type": 'radio'
         }
     ],
     "answer": 'undefined'
