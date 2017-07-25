@@ -29,6 +29,9 @@ const TIPOPREGUNTAS = [
     }, {
         id: 2,
         data: "Anidada"
+    }, {
+        id: 3,
+        data: "Grupal"
     }
 
 ];
@@ -66,7 +69,7 @@ const _MULTIPLES = {
     "options": [
         {
             "option": "",
-            "condition": '',    
+            "condition": '',
             "type": 'radio'
         }
     ],
@@ -74,7 +77,19 @@ const _MULTIPLES = {
 }
 const _INDEXADA = {
     "question": '',
-    "questions": [_MULTIPLES],
+    "questions": [
+        {
+            "question": '',
+            "options": [
+                {
+                    "option": "",
+                    "condition": '',
+                    "type": 'radio'
+                }
+            ],
+            "answer": 'undefined'
+        }
+    ],
     "answer": 'undefined'
 }
 
@@ -82,17 +97,24 @@ moment.locale('es');
 
 var App = React.createClass({
     getInitialState: function () {
-        return {routerPath: "home", idModulo: undefined};
+        return {routerPath: "home", idModulo: undefined, idInstrumento: undefined};
     },
     hangleModulo: function (id) {
         var idM = parseInt(id)
-        this.setState({routerPath: "modulo", idModulo: idM})
+        this.setState({routerPath: "modulo", idModulo: idM,listaModulos:undefined})
     },
     hangleHome: function () {
-        this.setState({routerPath: "home", idModulo: undefined})
+        this.setState({routerPath: "home", idModulo: undefined,listaModulos: undefined})
+    },
+    hangleInstrumento: function (id) {
+        this.setState({routerPath: "instrumento", idInstrumento: id,listaModulos: undefined})
+    },
+    hanglePreInstrumento: function (id) {
+        this.setState({routerPath: "simulacion", idInstrumento: id,listaModulos: undefined})
     },
     componentDidMount: function () {
-        var router = Router({'/': this.hangleHome, '/modulo': this.listBooks, '/modulo/:id': this.hangleModulo});
+        //agregar modulos
+        var router = Router({'/': this.hangleHome, '/instrumento/:id': this.hangleInstrumento,'/simulacion/:id': this.hanglePreInstrumento, '/modulo/:id': this.hangleModulo});
         router.init('/');
     },
     render: function () {
@@ -130,6 +152,108 @@ var App = React.createClass({
                             </li>
                             <li >
                                 Módulo
+                            </li>
+                        </ol>
+                    </div>
+                );
+                break;
+            case "instrumento":
+                var params = {
+                    id: this.state.idInstrumento
+                };
+                var url = "AdminIN.aspx/getInstrumentoId";
+                
+                var listaIdModulos = []
+                if(this
+                    .state
+                    .listaModulos){
+                    this
+                    .state
+                    .listaModulos
+                    .map((item, index) => {
+                        listaIdModulos.push(<Modulo key={index} id={item.id} />)
+                    });
+
+                }else{
+                    axios
+                    .post(url, params)
+                    .then(function (response) {
+                        debugger;
+                        if (response && response.data && response.data.d[0].modulos != "") {
+                            var modulos = JSON.parse(response.data.d[0].modulos);
+                            this.setState({listaModulos: modulos})
+                        } else {
+                            this.setState({listaModulos: []})
+                        }
+                    }.bind(this))
+                    .catch(function (error) {
+                        alert("No se pudo obtener datos")
+                    });
+                }
+                
+                renderConteiner = (listaIdModulos);
+                renderNavigator = (
+                    <div className="col-md-12 col-sm-12">
+                        <ol className="breadcrumb">
+                            <li>
+                                <a href="/Miembros/MenuPrincipal">Inicio</a>
+                            </li>
+                            <li >
+                                <a href="#">Administrador de Instrumentos</a>
+                            </li>
+                            <li >
+                                Instrumento
+                            </li>
+                        </ol>
+                    </div>
+                );
+                break;
+                case "simulacion":
+                var params = {
+                    id: this.state.idInstrumento
+                };
+                var url = "AdminIN.aspx/getInstrumentoId";
+                
+                var listaIdModulos = []
+                if(this
+                    .state
+                    .listaModulos){
+                    this
+                    .state
+                    .listaModulos
+                    .map((item, index) => {
+                        listaIdModulos.push(<Modulo key={index} id={item.id} simulation={true}/>)
+                    });
+
+                }else{
+                    axios
+                    .post(url, params)
+                    .then(function (response) {
+                        debugger;
+                        if (response && response.data && response.data.d[0].modulos != "") {
+                            var modulos = JSON.parse(response.data.d[0].modulos);
+                            this.setState({listaModulos: modulos})
+                        } else {
+                            this.setState({listaModulos: []})
+                        }
+                    }.bind(this))
+                    .catch(function (error) {
+                        alert("No se pudo obtener datos")
+                    });
+                }
+                
+                renderConteiner = (listaIdModulos);
+                renderNavigator = (
+                    <div className="col-md-12 col-sm-12">
+                        <ol className="breadcrumb">
+                            <li>
+                                <a href="/Miembros/MenuPrincipal">Inicio</a>
+                            </li>
+                            <li >
+                                <a href="#">Administrador de Instrumentos</a>
+                            </li>
+                            <li >
+                                Instrumento
                             </li>
                         </ol>
                     </div>

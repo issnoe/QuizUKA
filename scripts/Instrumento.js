@@ -197,9 +197,18 @@ class Instrumento extends  React.Component {
                                     <img src="../../../images/menu.svg" alt="Acciones" height="28"/>
                                 </a>
                                 <ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                    
                                     <li>
                                         <a href=""><img src="../../../images/enable.svg" alt="Activar instrumento" height="18"/>
                                             Activar</a>
+                                    </li>
+                                    <li>
+                                        <a href={"#/instrumento/"+this.props.item.id}><img src="../../../images/enable.svg" alt="Visualizar instrumento" height="18"/>
+                                            Visualizar</a>
+                                    </li>
+                                    <li>
+                                        <a href={"#/simulacion/"+this.props.item.id}><img src="../../../images/enable.svg" alt="Visualizar instrumento" height="18"/>
+                                            Simulación</a>
                                     </li>
                                     <li>
 

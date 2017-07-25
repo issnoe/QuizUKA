@@ -95,7 +95,7 @@ class Instrumentos extends React.Component {
                 item={item}/>);
         if (this.state.spinerLoad == true) {
             return (
-                <div className="spinner"></div>
+                <div className="spinner" key={"spinnerInstrumento_"}></div>
             )
         }
 

@@ -163,12 +163,13 @@ class QuestionManager extends React.Component {
     render() {
         return (
             <div className="reg-preg">
-                <input
+                {(this.props.simulation)?(""):(<input
                     type="checkbox"
                     value={this.props.item.id}
                     checked={this.props.checked}
                     onClick={this.props.onDelete}
-                    className="check-preg"/>
+                    className="check-preg"/>)}
+                
                 <strong>
                     {this.props.prefijo + " "}</strong>
                 {this.props.castJsonPregunta[0].question}<br/>
@@ -214,7 +215,7 @@ class PanelPreguntas extends React.Component {
         var modulo = this.props.modulo;
         if (modulo == undefined) {
             return (
-                <div className="spinner"></div>
+                <div className="spinner" key={"spinerModulo "+this.props.modulo.id}></div>
             )
         }
         if (modulo && modulo.reactivos && modulo.reactivos.length > 0) {
@@ -234,6 +235,7 @@ class PanelPreguntas extends React.Component {
                         var castJsonPregunta = JSON.parse(preguntaDef);
                         var pregunta = (
                             <QuestionManager
+                                simulation={this.props.simulation}
                                 key={lista[key].id}
                                 item={lista[key]}
                                 checked={checkedItem}
@@ -275,28 +277,42 @@ class PanelPreguntas extends React.Component {
                     {/* <div className="col-md-6">
                         <input type="checkbox" onChange={this.handleChecks.bind(this)} className="check-preg"/>Seleccionar todas
                     </div> */}
-                    <div className="col-md-12 col-sm-12 text-right">
-                        <a
-                            onClick={() => {
-                            this
-                                .props
-                                .deleteSelected(this.state.listDetele)
-                        }}><img src="../../../images/erase-gray.svg" height="18"/>
-                            Eliminar preguntas seleccionadas</a>
-                    </div>
+                    {(this.props.simulation)
+                        ? ("")
+                        : (
+                            <div className="col-md-12 col-sm-12 text-right">
+                                <a
+                                    onClick={() => {
+                                    this
+                                        .props
+                                        .deleteSelected(this.state.listDetele)
+                                }}><img src="../../../images/erase-gray.svg" height="18"/>
+                                    Eliminar preguntas seleccionadas</a>
+                            </div>
+                        )}
+
                 </div>
-                <div className="cont-reg-preg">
+                <div
+                    className={(this.props.simulation)
+                    ? ""
+                    : "cont-reg-preg"}>
                     {this.renderReactivos()}
                 </div>
+                {(this.props.simulation)
+                    ? ("")
+                    : (
+                        <div>
+                            <label className="lbl-id">
+                                <div className="id-preg relacionada"></div>Respueta relacionada</label>
+                            <label className="lbl-id">
+                                <div className="id-preg "></div>@TEXTO</label>
+                            <label className="lbl-id">
+                                <div className="id-preg "></div>@FECHA</label>
+                            <label className="lbl-id">
+                                <div className="id-preg "></div>@HORA</label>
+                        </div>
+                    )}
 
-                <label className="lbl-id">
-                    <div className="id-preg relacionada"></div>Respueta relacionada</label>
-                <label className="lbl-id">
-                    <div className="id-preg "></div>@TEXTO</label>
-                    <label className="lbl-id">
-                    <div className="id-preg "></div>@FECHA</label>
-                    <label className="lbl-id">
-                    <div className="id-preg "></div>@HORA</label>
             </div>
         )
     }

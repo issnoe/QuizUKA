@@ -35,7 +35,7 @@ class Modulo extends React.Component {
     deleteSelected(list) {
         this.setState({spinerLoad: true})
         list.map(function (id) {
-            
+
             var couter = 0;
             var params = {
                 id: id
@@ -87,7 +87,7 @@ class Modulo extends React.Component {
         if (this.state.spinerLoad == true) {
             return (
                 <div className="container">
-                    <div className="spinner"></div>
+                    <div className="spinner" key={"spinnerModulo"+this.state.modulo.id}></div>
                 </div>
             )
         }
@@ -102,27 +102,41 @@ class Modulo extends React.Component {
                         </div>
                     </div>
                 </div>
-                
-                <div className="container">
+                {(this.props.simulation)
+                    ? (
+                        <div className="container">
+                            <div className="col-md-12 col-sm-12">
+                                <PanelPreguntas
+                                    simulation={this.props.simulation}
+                                    modulo={this.state.modulo}
+                                    deleteSelected={this
+                                    .deleteSelected
+                                    .bind(this)}/>
+                            </div>
+                        </div>
+                    )
+                    : (
+                        <div className="container">
 
-                    <div className="col-md-5  col-sm-12 pregunta-div">
-                            <Question
-                            prefijoPregunta={this.state.modulo.prefijo + "." + (this.state.modulo.reactivos.length + 1)}
-                            saveClose={this
-                            .saveClose
-                            .bind(this)}
-                            saveNext={this
-                            .saveNext
-                            .bind(this)}/> 
-                    </div>
-                    <div className="col-md-7 col-sm-12">
-                        <PanelPreguntas
-                            modulo={this.state.modulo}
-                            deleteSelected={this
-                            .deleteSelected
-                            .bind(this)}/>
-                    </div>
-                </div>
+                            <div className="col-md-5  col-sm-12 pregunta-div">
+                                <Question
+                                    prefijoPregunta={this.state.modulo.prefijo + "." + (this.state.modulo.reactivos.length + 1)}
+                                    saveClose={this
+                                    .saveClose
+                                    .bind(this)}
+                                    saveNext={this
+                                    .saveNext
+                                    .bind(this)}/>
+                            </div>
+                            <div className="col-md-7 col-sm-12">
+                                <PanelPreguntas
+                                    modulo={this.state.modulo}
+                                    deleteSelected={this
+                                    .deleteSelected
+                                    .bind(this)}/>
+                            </div>
+                        </div>
+                    )}
 
             </div>
         )

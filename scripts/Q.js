@@ -96,6 +96,28 @@ class Question extends React.Component {
                 }
                 this.setState({preguntaJson: jsonQ, tipopregunta: valor});
                 break;
+            case 3:
+                var jsonQ = {
+                    "question": '',
+                    "group": {
+                        "questions": [
+                            {
+                                "question": '',
+                                "index": ""
+                            }
+                        ],
+                        "options": [
+                            {
+                                "option": "",
+                                "condition": '',
+                                "type": 'checkbox'
+                            }
+                        ]
+                    },
+                    "answer": 'undefined'
+                }
+                this.setState({preguntaJson: jsonQ, tipopregunta: valor});
+                break;
 
             default:
                 break;
@@ -203,14 +225,16 @@ class Question extends React.Component {
     handleChecUnique(e) {
         var ischecked = e.target.checked
         //Handle option types
-        var typeHandle=(ischecked)?"radio":"checkbox";
-            var question = this.state.preguntaJson;
-            var opciones = question.options;
-            opciones.map((i, index) => {
-                opciones[index].type = typeHandle
-            })
-            question.options = opciones;
-            this.setState({preguntaJson: question, render: false})
+        var typeHandle = (ischecked)
+            ? "radio"
+            : "checkbox";
+        var question = this.state.preguntaJson;
+        var opciones = question.options;
+        opciones.map((i, index) => {
+            opciones[index].type = typeHandle
+        })
+        question.options = opciones;
+        this.setState({preguntaJson: question, render: false})
         debugger
         this.setState({checkUnique: ischecked})
 
