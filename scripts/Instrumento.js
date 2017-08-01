@@ -1,15 +1,14 @@
-
-class Instrumento extends  React.Component {
+class Instrumento extends React.Component {
     constructor(props) {
         super(props);
-       
+
         this.state = {}
         this.state.showModal = false
         this.state.showModalDelete = false
-        
+
         this.state.isOpened = false;
-        this.state.item ={}
-        this.state.itemModulo ={}
+        this.state.item = {}
+        this.state.itemModulo = {}
 
         var modulos = []
         try {
@@ -71,7 +70,7 @@ class Instrumento extends  React.Component {
     /*fin  WS */
 
     handleModalDelete(decition) {
-       
+
         if (decition.action) {
             this
                 .props
@@ -85,8 +84,10 @@ class Instrumento extends  React.Component {
     saveModulo(state) {
 
         if (state.modulo) {
-            this.saveModuloWS(state, function (data) {
-                    this.getModulosWS(this.props.item.id, function (data) {
+            this
+                .saveModuloWS(state, function (data) {
+                    this
+                        .getModulosWS(this.props.item.id, function (data) {
 
                             if (data.d[0].modulos != "") {
                                 var modulos = JSON.parse(data.d[0].modulos);
@@ -121,7 +122,7 @@ class Instrumento extends  React.Component {
                 }.bind(this));
                 break;
             case "update":
-               
+
                 this.setState({showModal: true, itemModulo: e.item});
                 break;
 
@@ -150,7 +151,7 @@ class Instrumento extends  React.Component {
 
         return (
             <div className="panel panel-default">
-                
+
                 <PopupMsg
                     onChange={this
                     .handleModalDelete
@@ -197,17 +198,17 @@ class Instrumento extends  React.Component {
                                     <img src="../../../images/menu.svg" alt="Acciones" height="28"/>
                                 </a>
                                 <ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                    
+
                                     <li>
                                         <a href=""><img src="../../../images/enable.svg" alt="Activar instrumento" height="18"/>
                                             Activar</a>
                                     </li>
                                     <li>
-                                        <a href={"#/instrumento/"+this.props.item.id}><img src="../../../images/add.svg" alt="Agregar pregunta" height="18"/>
+                                        <a href={"#/instrumento/" + this.props.item.id}><img src="../../../images/add.svg" alt="Agregar pregunta" height="18"/>
                                             Agregar pregunta</a>
                                     </li>
                                     <li>
-                                        <a href={"#/simulacion/"+this.props.item.id}><img src="../../../images/enable.svg" alt="Visualizar instrumento" height="18"/>
+                                        <a href={"#/simulacion/" + this.props.item.id}><img src="../../../images/enable.svg" alt="Visualizar instrumento" height="18"/>
                                             Visualizar</a>
                                     </li>
                                     <li>
@@ -226,14 +227,23 @@ class Instrumento extends  React.Component {
                                     <li>
                                         <a
                                             onClick={() => {
-                                               {/*var itemM = {}
-                                               itemM.id_instrumento:this.props.item.id;*/}
-                                            this.setState({showModal: true,itemModulo:{id_instrumento:this.props.item.id,id:0,modulo:"",prefijo:"",estado:1,leyenda:""}})
+                                            {/*var itemM = {} itemM.id_instrumento:this.props.item.id;*/
+                                            }
+                                            this.setState({
+                                                showModal: true,
+                                                itemModulo: {
+                                                    id_instrumento: this.props.item.id,
+                                                    id: 0,
+                                                    modulo: "",
+                                                    prefijo: "",
+                                                    estado: 1,
+                                                    leyenda: ""
+                                                }
+                                            })
                                         }}><img src="../../../images/add.svg" alt="Agregar módulo" height="18"/>
                                             Agregar módulo</a>
                                     </li>
-                                   
-                                    
+
                                     <li>
                                         <a
                                             onClick={() => {
@@ -271,7 +281,7 @@ class Instrumento extends  React.Component {
                                     </div>
                                 </div>
                                 {this.renderModulos()}
-                              
+
                                 {/*{listItems}*/}
                             </div>
 

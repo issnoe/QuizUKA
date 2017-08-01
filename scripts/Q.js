@@ -96,7 +96,28 @@ class Question extends React.Component {
                 }
                 this.setState({preguntaJson: jsonQ, tipopregunta: valor});
                 break;
-            case 3:
+                case 3:
+                var jsonQ = {
+                    "question": '',
+                    "questions": [
+                        {
+                            "question": '',
+                            "options": [
+                                {
+                                    "option": "",
+                                    "condition": '',
+                                    "type": 'radio'
+                                }
+                            ],
+                            "answer": 'undefined'
+                        }
+                    ],
+                    "answer": 'undefined'
+                }
+                this.setState({preguntaJson: jsonQ, tipopregunta: valor});
+                
+                break;
+            case 4:
                 var jsonQ = {
                     "question": '',
                     "group": {
@@ -235,7 +256,6 @@ class Question extends React.Component {
         })
         question.options = opciones;
         this.setState({preguntaJson: question, render: false})
-        debugger
         this.setState({checkUnique: ischecked})
 
     }
@@ -306,8 +326,19 @@ class Question extends React.Component {
         this.setState({preguntaJson});
 
     }
+    handleLinkPanelQueston(question) {
+       
+        var preguntaJson = this.state.preguntaJson
+        preguntaJson.questions.map((item,index)=>{
+         debugger
+            preguntaJson.questions[index].options = question.options;
+        })
+        this.setState({preguntaJson});
 
-    renderIndexed() {
+    }
+    
+
+    renderAnidada() {
 
         if (this.state.tipopregunta == 2 && this.state.preguntaJson.questions) {
             var listChildrens = [];
@@ -330,7 +361,6 @@ class Question extends React.Component {
                     })
 
             } catch (error) {
-                debugger;
                 alert("Code:qr502")
             }
 
@@ -338,6 +368,70 @@ class Question extends React.Component {
                 <div>
                     <div className="col-md-12">
                         {listChildrens}
+                    </div>
+
+                    <div className="col-md-12 text-right">
+                        <h5>
+
+                            <a
+                                onClick={this
+                                .addQuestionIndexed
+                                .bind(this)}>Nueva pregunta<img src="../../../../images/add.svg"/></a>
+                        </h5>
+                    </div>
+                </div>
+            );
+            return renderIndexed
+        }
+    }
+    renderAnidadaMultiple(){
+        if(this.state.tipopregunta == 3 &&this.state.preguntaJson.questions){
+            var listQuestions
+             var listChildrens = [];
+             var listChildrensOptions = [];
+            try {
+                this
+                    .state
+                    .preguntaJson
+                    .questions
+                    .map((index, i) => {
+                        listChildrens.push(<LinkedPanelQuestion
+                            key={i}
+                            index={i}
+                            question={index}
+                            onDelete={this
+                            .onDeleteIndexed
+                            .bind(this, i)}
+                            handleLinkQueston={this
+                            .handleLinkQueston
+                            .bind(this, i)}/>)
+                    })
+
+            } catch (error) {
+                alert("Code:QR502")
+            }
+
+            try {
+                var optionsDefaultFirstQuestion = this.state.preguntaJson.questions[0];
+                listChildrensOptions.push(
+                    <LinkedPanelAnswer
+                            question={optionsDefaultFirstQuestion}
+                            onDelete={this
+                            .onDeleteIndexed
+                            .bind(this)}
+                            handleLinkQueston={this
+                            .handleLinkPanelQueston
+                            .bind(this)}/>)
+
+            } catch (error) {
+                alert("Code:QRA502")
+            }
+
+            var renderIndexed = (
+                <div>
+                    <div className="col-md-12">
+                        {listChildrens}
+                        {listChildrensOptions}
                     </div>
 
                     <div className="col-md-12 text-right">
@@ -405,7 +499,8 @@ class Question extends React.Component {
                     </div>
 
                     {this.renderOptions()}
-                    {this.renderIndexed()}
+                    {this.renderAnidada()}
+                    {this.renderAnidadaMultiple()}
                     <div className="col-md-12">
                         <div className="form-group">
                             <label className="label">Nota(s):</label>

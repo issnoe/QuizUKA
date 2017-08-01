@@ -7,7 +7,6 @@
             var lista = this.props.question.options
             var options = []
             for (var index in lista) {
-                debugger;
                 var option = lista[index].option;
                 var condition = lista[index].condition;
                 try {
@@ -76,7 +75,6 @@
 }
 class QuestionManager extends React.Component {
     renderLinkedQuestions() {
-        debugger;
         this;
         if (this.props.castJsonPregunta && this.props.castJsonPregunta[0].questions) {
 
@@ -248,7 +246,6 @@ class PanelPreguntas extends React.Component {
                         listaRender.push(pregunta);
                     } catch (ex) {
                         console.log(ex)
-                        debugger
                         alerta("301->Panel preguntas")
                     }
 

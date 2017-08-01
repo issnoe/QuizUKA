@@ -3,7 +3,6 @@ var Modal = ReactBootstrap.Modal;
 const OverlayTrigger = ReactBootstrap.OverlayTrigger;
 const Popover = ReactBootstrap.Popover;
 const Button = ReactBootstrap.Button;
-
 var DropdownButton = ReactBootstrap.DropdownButton;
 var MenuItem = ReactBootstrap.MenuItem;
 var Tab = ReactBootstrap.Tab;
@@ -25,12 +24,16 @@ const TIPOPREGUNTAS = [
         data: "Abierta"
     }, {
         id: 1,
-        data: "Multiple"
+        data: "Múltiple"
     }, {
         id: 2,
         data: "Anidada"
-    }, {
+    }
+    , {
         id: 3,
+        data: "Anidada múltiple"
+    }, {
+        id: 4,
         data: "Grupal"
     }
 
@@ -178,7 +181,6 @@ var App = React.createClass({
                     axios
                     .post(url, params)
                     .then(function (response) {
-                        debugger;
                         if (response && response.data && response.data.d[0].modulos != "") {
                             var modulos = JSON.parse(response.data.d[0].modulos);
                             this.setState({listaModulos: modulos})
@@ -229,7 +231,6 @@ var App = React.createClass({
                     axios
                     .post(url, params)
                     .then(function (response) {
-                        debugger;
                         if (response && response.data && response.data.d[0].modulos != "") {
                             var modulos = JSON.parse(response.data.d[0].modulos);
                             this.setState({listaModulos: modulos})

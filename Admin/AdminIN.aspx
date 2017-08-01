@@ -23,7 +23,6 @@
     	&nbsp;
     </footer>
     <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css"/>
-    <link href="https://file.myfontastic.com/CrszDy9EX5PKEPWYeoAXdg/icons.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
     <link rel="stylesheet" type="text/css" href="../../../css/xt.css"/>
     <link rel="stylesheet" type="text/css" href="../../../css/form.css"/>
@@ -37,6 +36,8 @@
     <script src="../../../Scripts/moment-with-locales.js"></script>
     <script src="../../../Scripts/src-react/prop-types.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+     <link href="https://file.myfontastic.com/CrszDy9EX5PKEPWYeoAXdg/icons.css" rel="stylesheet"/>
    
     <!--
 <script src="../../../Scripts/jquery.flexslider.js"></script>
@@ -71,10 +72,6 @@
       src="https://rawgit.com/flatiron/director/master/build/director.min.js">
     </script>
 
-
-    <!--<script src="../../../Scripts/jquery.js"></script>
-         <link rel="stylesheet" href="../../../css/bootstrap.min.css" />
-    <script src="../../../Scripts/bootstrap.js"></script>-->
     <script src="../../../Scripts/react-bootstrap.min.js"></script>
    
 
@@ -92,6 +89,7 @@
     <script type="text/babel" src="../scripts/Pregunta.js"></script>
     <script type="text/babel" src="../scripts/Reactivos.js"></script>
     <script type="text/babel" src="../scripts/Answer.js"></script>
+    <script type="text/babel" src="../scripts/LinkedPanelQuestion.js"></script>
     <script type="text/babel" src="../scripts/LinkedQuestion.js"></script>
     <script type="text/babel" src="../scripts/Q.js"></script>
     <script type="text/babel" src="../scripts/Q.js"></script>
