@@ -11,9 +11,10 @@
                 var condition = lista[index].condition;
                 try {
                     if (condition) {
+                       
                         var popoverTop = (
                             <Popover id="popover-positioned-top" title={condition}>
-                                Agregar funcion de busqueda ###
+                                <a href={"#/search/" + condition+"/"+this.props.item.id_modulo+"/"+this.props.item.id_instrumento}>Ir a </a>
                             </Popover>
                         );
                         options.push(
@@ -62,9 +63,14 @@
     }
 
     render() {
+      
         return (
             <div className="reg-preg preg-rel">
+                   <small >{(this.props.question.onlyTo)?"Para: "+this.props.question.onlyTo:""}</small><br/>
                 {this.props.question.question}<br/>
+                 <small >{(this.props.question.note)?"Nota: "+this.props.question.note:""}</small><br/>
+                
+                
                 <small >{this.props.question.nota}</small>
                 {this.renderOption()}
 
@@ -110,7 +116,8 @@ class QuestionManager extends React.Component {
                     if (condition) {
                         var popoverTop = (
                             <Popover id="popover-positioned-top" title={condition}>
-                                Agregar funcion de busqueda ###
+                                <a href={"#/search/" + condition+"/"+this.props.item.id_modulo+"/"+this.props.item.id_instrumento}>Ir a </a>
+                                   
                             </Popover>
                         );
                         options.push(
@@ -240,7 +247,7 @@ class PanelPreguntas extends React.Component {
                                 prefijo={prefijopregunta}
                                 onDelete={this.onDelete}
                                 castJsonPregunta={castJsonPregunta}>
-                                <h1>hola mundo!!</h1>
+                               
                             </QuestionManager>
                         )
                         listaRender.push(pregunta);

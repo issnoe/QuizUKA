@@ -120,21 +120,22 @@ class Question extends React.Component {
             case 4:
                 var jsonQ = {
                     "question": '',
-                    "group": {
-                        "questions": [
-                            {
-                                "question": '',
-                                "index": ""
-                            }
-                        ],
-                        "options": [
-                            {
-                                "option": "",
-                                "condition": '',
-                                "type": 'checkbox'
-                            }
-                        ]
-                    },
+                    "questions": [
+                        {
+                            "question": '',
+                            "note":'',
+                            "onlyTo":'',
+                            "options": [
+                                {
+                                    "option": "",
+                                    "condition": '',
+                                    "type": 'radio'
+                                }
+                            ],
+                            "answer": 'undefined'
+                        }
+                    ],
+                    "repeat":1,
                     "answer": 'undefined'
                 }
                 this.setState({preguntaJson: jsonQ, tipopregunta: valor});
@@ -330,17 +331,61 @@ class Question extends React.Component {
        
         var preguntaJson = this.state.preguntaJson
         preguntaJson.questions.map((item,index)=>{
-         debugger
             preguntaJson.questions[index].options = question.options;
         })
         this.setState({preguntaJson});
 
     }
     
+ renderAnidadaGroup() {
 
+        if ( this.state.tipopregunta == 4 && this.state.preguntaJson.questions) {
+            var listChildrens = [];
+            try {
+                this
+                    .state
+                    .preguntaJson
+                    .questions
+                    .map((index, i) => {
+                        listChildrens.push(<LinkedGroupQuestion
+                            key={i}
+                            index={i}
+                            question={index}
+                            onDelete={this
+                            .onDeleteIndexed
+                            .bind(this, i)}
+                            handleLinkQueston={this
+                            .handleLinkQueston
+                            .bind(this, i)}/>)
+                    })
+
+            } catch (error) {
+                alert("Code:qr502")
+            }
+
+            var renderIndexed = (
+                <div>
+                    <div className="col-md-12">
+                        {listChildrens}
+                    </div>
+
+                    <div className="col-md-12 text-right">
+                        <h5>
+
+                            <a
+                                onClick={this
+                                .addQuestionIndexed
+                                .bind(this)}>Nueva pregunta<img src="../../../../images/add.svg"/></a>
+                        </h5>
+                    </div>
+                </div>
+            );
+            return renderIndexed
+        }
+    }
     renderAnidada() {
 
-        if (this.state.tipopregunta == 2 && this.state.preguntaJson.questions) {
+        if ((this.state.tipopregunta == 2  )&& this.state.preguntaJson.questions) {
             var listChildrens = [];
             try {
                 this
@@ -500,6 +545,7 @@ class Question extends React.Component {
 
                     {this.renderOptions()}
                     {this.renderAnidada()}
+                    {this.renderAnidadaGroup()}
                     {this.renderAnidadaMultiple()}
                     <div className="col-md-12">
                         <div className="form-group">

@@ -410,16 +410,91 @@ namespace InfoKilo.WebApp.Miembros.IN.Admin
 
         }
 
+       //Obtener Modulos con preguntas
+       [System.Web.Services.WebMethod]
+       public static List<Modulos> getReactivosbyModuloId(int id)
+       {
+           List<Modulos> lista = new List<Modulos>();
 
+           using (SqlConnection conn = new SqlConnection(ConfigurationManager.AppSettings["connectionStringClasses"].ToString()))
+           {
+               string query = "SELECT modulos.* ,(select * from  reactivos where modulos.id = reactivos.id_modulo  FOR JSON PATH ) as reactivos FROM modulos where modulos.id =" + id;
+               SqlCommand command = new SqlCommand(query, conn);
+               try
+               {
+                   conn.Open();
+                   using (SqlDataReader reader = command.ExecuteReader())
+                   {
+                       while (reader.Read())
+                       {
+
+                           Modulos item = new Modulos();
+                           item.id = Convert.ToInt32(reader["id"].ToString());
+                           try
+                           {
+                               item.id_instrumento = Convert.ToInt32(reader["id_instrumento"].ToString());
+
+                           }
+                           catch (Exception es)
+                           {
+                           }
+
+                           try
+                           {
+                               item.modulo = reader["modulo"].ToString();
+                               item.leyenda = reader["leyenda"].ToString();
+                               item.prefijo = reader["prefijo"].ToString();
+                               item.estado = Convert.ToInt32(reader["estado"].ToString());
+                               item.orden = Convert.ToInt32(reader["orden"].ToString());
+
+
+                           }
+                           catch (Exception exx)
+                           {
+                               // Console.WriteLine(exx.Message);
+
+                           }
+
+                           try
+                           {
+                               item.fechaCreacion = Convert.ToDateTime(reader["fechaCreacion"].ToString());
+                           }
+                           catch (Exception ex)
+                           {
+                               //Console.WriteLine(ex.Message);
+
+                           }
+
+                           item.reactivos = reader["reactivos"].ToString();
+
+                           if (item.modulo != "")
+                           {
+                               lista.Add(item);
+                           }
+
+                       }
+                   }
+               }
+               catch (Exception ex)
+               {
+                   Console.WriteLine(ex.Message);
+               }
+           }
+
+           return lista;
+       }
+      
+       //searchByPrefijo
+       //
         //Obtener Modulos con preguntas
          [System.Web.Services.WebMethod]
-       public static List<Modulos> getReactivosbyModuloId(int id)
+       public static List<Modulos> searchByPrefijo(string prefijo, int id_modulo, int id_instrumento)
        {
            List<Modulos> lista = new List<Modulos>();
            
            using (SqlConnection conn = new SqlConnection(ConfigurationManager.AppSettings["connectionStringClasses"].ToString()))
            {
-               string query = "SELECT modulos.* ,(select * from  reactivos where modulos.id = reactivos.id_modulo  FOR JSON PATH ) as reactivos FROM modulos where modulos.id ="+id;
+               string query = "SELECT modulos.* ,(select * from  reactivos where modulos.id = reactivos.id_modulo  FOR JSON PATH ) as reactivos FROM modulos where id_instrumento ="+id_instrumento+" and prefijo like '"+prefijo+"'";
                SqlCommand command = new SqlCommand(query, conn);
                try
                {

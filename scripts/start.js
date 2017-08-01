@@ -28,8 +28,7 @@ const TIPOPREGUNTAS = [
     }, {
         id: 2,
         data: "Anidada"
-    }
-    , {
+    }, {
         id: 3,
         data: "Anidada múltiple"
     }, {
@@ -104,27 +103,69 @@ var App = React.createClass({
     },
     hangleModulo: function (id) {
         var idM = parseInt(id)
-        this.setState({routerPath: "modulo", idModulo: idM,listaModulos:undefined})
+        this.setState({routerPath: "modulo", idModulo: idM, listaModulos: undefined})
     },
     hangleHome: function () {
-        this.setState({routerPath: "home", idModulo: undefined,listaModulos: undefined})
+        this.setState({routerPath: "home", idModulo: undefined, listaModulos: undefined})
     },
     hangleInstrumento: function (id) {
-        this.setState({routerPath: "instrumento", idInstrumento: id,listaModulos: undefined})
+        this.setState({routerPath: "instrumento", idInstrumento: id, listaModulos: undefined})
     },
     hanglePreInstrumento: function (id) {
-        this.setState({routerPath: "simulacion", idInstrumento: id,listaModulos: undefined})
+        this.setState({routerPath: "simulacion", idInstrumento: id, listaModulos: undefined})
+    },
+    hangleSearchPrefijo: function (prefijo, idModulo, idInstrumento) {
+        //Obtener solo el prefijo 
+       var onlyText= prefijo.split(/[0-9]+/);
+        var params = {
+            prefijo: onlyText[0],
+            id_modulo: parseInt(idModulo),
+            id_instrumento: parseInt(idInstrumento)
+        };
+        var url = "AdminIN.aspx/searchByPrefijo";
+        axios
+            .post(url, params)
+            .then(function (response) {
+                if(response && response.data){
+                     var lenghtData = response.data.d.length;
+                if (lenghtData > 1) {
+                    this.setState({routerPath: "msg", mensaje: "Existe ambiguedad por el prefijo en estos instrumentos;", listIdsModulos: response.data.d})
+                    //alert("Existe un módulo con el mismo prefijo"+ids)
+                } else if (!response.data.d.length) {
+                    this.setState({routerPath: "msg", mensaje: "No se encuentra ninguna referencia con este prefijo ;", listIdsModulos: undefined})
+
+                } else if (lenghtData == 1) {
+                    debugger
+                      var onlyNumber= prefijo.split(/[A-Za-z]+/);
+                      var index = onlyNumber[1];
+                      if(index){
+                         var idm = response.data.d[0].id
+                          window.location.href = '#/modulo/'+idm;
+                      }else{
+                          var idm = response.data.d[0].id
+                          window.location.href = '#/modulo/'+idm;
+                      }
+                
+                }
+
+                }
+               
+                
+            }.bind(this))
+            .catch(function (error) {
+                alert("No se pudo obtener datos de ese prefijo")
+            });
+
     },
     componentDidMount: function () {
         //agregar modulos
-        var router = Router({'/': this.hangleHome, '/instrumento/:id': this.hangleInstrumento,'/simulacion/:id': this.hanglePreInstrumento, '/modulo/:id': this.hangleModulo});
+        var router = Router({'/': this.hangleHome, '/instrumento/:id': this.hangleInstrumento, '/search/:prefijo/:idModulo/:idInstrumento': this.hangleSearchPrefijo, '/simulacion/:id': this.hanglePreInstrumento, '/modulo/:id': this.hangleModulo});
         router.init('/');
     },
     render: function () {
 
         var renderConteiner;
         var renderNavigator;
-
         switch (this.state.routerPath) {
             case "home":
                 renderConteiner = (<Instrumentos/>);
@@ -165,34 +206,32 @@ var App = React.createClass({
                     id: this.state.idInstrumento
                 };
                 var url = "AdminIN.aspx/getInstrumentoId";
-                
-                var listaIdModulos = []
-                if(this
-                    .state
-                    .listaModulos){
-                    this
-                    .state
-                    .listaModulos
-                    .map((item, index) => {
-                        listaIdModulos.push(<Modulo key={index} id={item.id} />)
-                    });
 
-                }else{
+                var listaIdModulos = []
+                if (this.state.listaModulos) {
+                    this
+                        .state
+                        .listaModulos
+                        .map((item, index) => {
+                            listaIdModulos.push(<Modulo key={index} id={item.id}/>)
+                        });
+
+                } else {
                     axios
-                    .post(url, params)
-                    .then(function (response) {
-                        if (response && response.data && response.data.d[0].modulos != "") {
-                            var modulos = JSON.parse(response.data.d[0].modulos);
-                            this.setState({listaModulos: modulos})
-                        } else {
-                            this.setState({listaModulos: []})
-                        }
-                    }.bind(this))
-                    .catch(function (error) {
-                        alert("No se pudo obtener datos")
-                    });
+                        .post(url, params)
+                        .then(function (response) {
+                            if (response && response.data && response.data.d[0].modulos != "") {
+                                var modulos = JSON.parse(response.data.d[0].modulos);
+                                this.setState({listaModulos: modulos})
+                            } else {
+                                this.setState({listaModulos: []})
+                            }
+                        }.bind(this))
+                        .catch(function (error) {
+                            alert("No se pudo obtener datos")
+                        });
                 }
-                
+
                 renderConteiner = (listaIdModulos);
                 renderNavigator = (
                     <div className="col-md-12 col-sm-12">
@@ -210,39 +249,68 @@ var App = React.createClass({
                     </div>
                 );
                 break;
-                case "simulacion":
+            case "msg":
+                var ids = [];
+                if (this.state.listIdsModulos) {
+                    this
+                        .state
+                        .listIdsModulos
+                        .map((item, index) => {
+                            ids.push(
+                                <div>
+                                    <a href={"#/modulo/"+item.modulo} ><br/> key={"ambiguedad_" + index} + item.id}> </a></div>
+                            )
+                        });
+                }
+
+                renderConteiner = (
+                    <Modal show={true} dialogClassName="modal-dialog modal-long">
+                        <div className="modal-content">
+                            <div className="modal-body">
+                                <div className="text-center">
+                                    {this.state.mensaje}
+                                </div>
+                                {ids}
+                                <button onClick={()=>{window.history.back();}}>Regresar</button>
+                                <div className="modal-footer"></div>
+
+                            </div>
+
+                        </div>
+                    </Modal>
+                );
+                break;
+            case "simulacion":
                 var params = {
                     id: this.state.idInstrumento
                 };
                 var url = "AdminIN.aspx/getInstrumentoId";
-                
-                var listaIdModulos = []
-                if(this
-                    .state
-                    .listaModulos){
-                    this
-                    .state
-                    .listaModulos
-                    .map((item, index) => {
-                        listaIdModulos.push(<Modulo key={index} id={item.id} simulation={true}/>)
-                    });
 
-                }else{
+                var listaIdModulos = []
+                if (this.state.listaModulos) {
+                    this
+                        .state
+                        .listaModulos
+                        .map((item, index) => {
+                            listaIdModulos.push(<Modulo key={index} id={item.id} simulation={true}/>)
+                        });
+
+                } else {
                     axios
-                    .post(url, params)
-                    .then(function (response) {
-                        if (response && response.data && response.data.d[0].modulos != "") {
-                            var modulos = JSON.parse(response.data.d[0].modulos);
-                            this.setState({listaModulos: modulos})
-                        } else {
-                            this.setState({listaModulos: []})
-                        }
-                    }.bind(this))
-                    .catch(function (error) {
-                        alert("No se pudo obtener datos")
-                    });
+                        .post(url, params)
+                        .then(function (response) {
+                            if (response && response.data && response.data.d[0].modulos != "") {
+                                var modulos = JSON.parse(response.data.d[0].modulos);
+                                this.setState({listaModulos: modulos})
+                            } else {
+                                this.setState({listaModulos: []})
+                            }
+                        }.bind(this))
+                        .catch(function (error) {
+                            alert("No se pudo obtener datos")
+                        });
                 }
-                
+
                 renderConteiner = (listaIdModulos);
                 renderNavigator = (
                     <div className="col-md-12 col-sm-12">
