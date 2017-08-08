@@ -258,7 +258,7 @@ var App = React.createClass({
                         .map((item, index) => {
                             ids.push(
                                 <div>
-                                    <a href={"#/modulo/"+item.modulo} ><br/> key={"ambiguedad_" + index} + item.id}> </a></div>
+                                    <a key={"ambiguedad_" + index} href={"#/modulo/"+item.id} ><br/>{item.modulo}   </a></div>
                             )
                         });
                 }

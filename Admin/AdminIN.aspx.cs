@@ -1,4 +1,5 @@
 ﻿using Infokilo.DataLayer;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -13,7 +14,8 @@ using System.Web.Script.Services;
 using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Infokilo.DataLayer;
+
+
 namespace InfoKilo.WebApp.Miembros.IN.Admin
 {
     public partial class AdminIN : Page
@@ -258,33 +260,65 @@ namespace InfoKilo.WebApp.Miembros.IN.Admin
              return 200;
          }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*GETS */
+    //new InstrumentosDynamic
+         [WebMethod]
+         [ScriptMethod(UseHttpGet = true)]
+         public static List<Instrumentos> getInstrumentosNew()
+         {
+             Repository<Instrumentos> crudIntrumentos = new Repository<Instrumentos>();
+            
+             List<string> listaTablas = new List<string>
+            {
+                "GruposInstrumentos",
+                "Modulos",
+              
+            };
+             var lista = new List<Instrumentos>();
+
+            lista = crudIntrumentos.Filter(n => n.estado==1 , listaTablas.Count, listaTablas);
+             
+             
+             return lista.AsQueryable().ToList();
+
+
+
+         }
+
+
         
-
-
-
-
-
-
-
-
-
-
-
-
-        
-        ////Instrumento con modulos
+    //Instrumento con modulos
         //Obtener Intrumento 
         [WebMethod]
         [ScriptMethod(UseHttpGet = true)]
-        public static List<Instrumentos> getInstrumentos()
+         public static List<Instrumentos> getInstrumentos()
         {
             Repository<Instrumentos> crudIntrumentos = new Repository<Instrumentos>();
-            crudIntrumentos.GetAll();
+          //  crudIntrumentos.GetAll();
 
             List<Instrumentos> lista = new List<Instrumentos>();
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.AppSettings["connectionStringClasses"].ToString()))
             {
-                SqlCommand command = new SqlCommand("SELECT  instrumentos.* ,(select * from  modulos where instrumentos.id = modulos.id_instrumento FOR JSON PATH) as modulos FROM instrumentos", conn);
+                var stringQuery = "SELECT instrumentos.*,(select * , (select GruposModulos.idGrupoModulo , GruposComunidad.NombreGrupo from GruposModulos inner join GruposComunidad on GruposComunidad.idGrupo=GruposModulos.idGrupo where GruposModulos.idModulo like modulos.id FOR JSON PATH) as grupos from modulos where instrumentos.id=modulos.id_instrumento FOR JSON PATH) as modulos,(select GruposInstrumentos.idGrupoInstrumento , GruposComunidad.NombreGrupo from GruposInstrumentos inner join GruposComunidad on GruposComunidad.idGrupo=GruposInstrumentos.idGrupo where idInstrumento=instrumentos.id FOR JSON PATH) as grupos FROM instrumentos";
+                SqlCommand command = new SqlCommand(stringQuery, conn);
+                  // "SELECT  instrumentos.* ,(select * from  modulos where InstrumentosDynamic.id = modulos.id_instrumento FOR JSON PATH) as modulos FROM InstrumentosDynamic", conn);
 
                 try
                 {
@@ -322,6 +356,7 @@ namespace InfoKilo.WebApp.Miembros.IN.Admin
                             }
                            
                             item.modulos = reader["modulos"].ToString();
+                            item.grupos = reader["grupos"].ToString();
 
                             if (item.nombre != "") {
                                 lista.Add(item);
@@ -342,17 +377,19 @@ namespace InfoKilo.WebApp.Miembros.IN.Admin
        
             }
 
-        //Obtener Intrumento 
+    //By Id Intrumento 
        [System.Web.Services.WebMethod]
         public static List<Instrumentos> getInstrumentoId(int id)
         {
-            //Repository<Instrumentos> crudIntrumentos = new Repository<Instrumentos>();
+            //Repository<InstrumentosDynamic> crudIntrumentos = new Repository<InstrumentosDynamic>();
             //crudIntrumentos.GetAll();
 
             List<Instrumentos> lista = new List<Instrumentos>();
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.AppSettings["connectionStringClasses"].ToString()))
             {
-                SqlCommand command = new SqlCommand("SELECT  instrumentos.* ,(select * from  modulos where instrumentos.id = modulos.id_instrumento FOR JSON PATH) as modulos FROM instrumentos where instrumentos.id ="+id, conn);
+                var stringQuery = "SELECT instrumentos.*,(select * , (select GruposModulos.idGrupoModulo , GruposComunidad.NombreGrupo from GruposModulos inner join GruposComunidad on GruposComunidad.idGrupo=GruposModulos.idGrupo where GruposModulos.idModulo like modulos.id FOR JSON PATH) as grupos from modulos where instrumentos.id=modulos.id_instrumento FOR JSON PATH) as modulos,(select GruposInstrumentos.idGrupoInstrumento , GruposComunidad.NombreGrupo from GruposInstrumentos inner join GruposComunidad on GruposComunidad.idGrupo=GruposInstrumentos.idGrupo where idInstrumento=instrumentos.id FOR JSON PATH) as grupos FROM instrumentos";
+
+                SqlCommand command = new SqlCommand(stringQuery+" where instrumentos.id ="+id, conn);
                 try
                 {
                     conn.Open();
@@ -410,7 +447,7 @@ namespace InfoKilo.WebApp.Miembros.IN.Admin
 
         }
 
-       //Obtener Modulos con preguntas
+    //Obtener Modulos con preguntas
        [System.Web.Services.WebMethod]
        public static List<Modulos> getReactivosbyModuloId(int id)
        {
@@ -486,7 +523,8 @@ namespace InfoKilo.WebApp.Miembros.IN.Admin
       
        //searchByPrefijo
        //
-        //Obtener Modulos con preguntas
+
+    //Fetch prefijo
          [System.Web.Services.WebMethod]
        public static List<Modulos> searchByPrefijo(string prefijo, int id_modulo, int id_instrumento)
        {
